@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>JSON Visualizer</title>
+    <style>
+        body {
+            font-family: Consolas, "Couriers New", monospace;
+            margin: 0;
+        }
+        a {
+            color: blue;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        ol, ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        mark {
+            background-color: #ffe288;
+            padding: 0 .5ex;
+            border-radius: 5px;
+        }
+
+        #modal {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            opacity: .4;
+            z-index: 100;
+        }
+        #dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            z-index: 200;
+            border: 2px solid #00a5e7;
+            border-radius: 8px;
+            min-width: 320px;
+            background: #fff;
+        }
+        #dialog h3 {
+            margin: 0;
+            font-size: 16px;
+            padding: 4px 16px 4px 4px;
+            border-bottom: 2px solid #00a5e7;
+        }
+        #dialog p {
+            line-height: 24px;
+            padding: 14px 16px 8px 12px;
+            text-indent: 16px;
+            margin: 0;
+            background: transparent none no-repeat 8px 16px;
+        }
+        #dialog.error p {
+            background-image: url(images/error.png);
+        }
+    </style>
+    <link rel="stylesheet" href="style/input.css">
+    <link rel="stylesheet" href="style/visual.css">
+</head>
+<body>
+    <div id="page">
+        <div id="content">
+            <h1>JSON Visualizer</h1>
+            <form action="visual" method="post">
+                <textarea id="json" name="json"></textarea>
+                <div id="instruction">
+                    <p>输入一段<a href="http://www.json.org/json-zh.html" title="介绍 JSON"><mark>JSON</mark></a>或拖动一个包含<a href="http://www.json.org/json-zh.html" title="介绍 JSON">JSON</a>的<mark>文本文件</mark>。试一下这段<mark id="test">测试数据</mark></p>
+                    <input type="submit" id="submit" value="可视化">
+                </div>
+            </form>
+        </div>
+        <aside id="sidebar">
+            <h2>更新日志</h2>
+            <ol id="events">
+                <li>
+                    <time>2011-02-24</time>
+                    <ul>
+                        <li>首页简单制作</li>
+                        <li>错误提示功能</li>
+                        <li>使用Javascript对TAB宽度进行严格校准</li>
+                        <li>字符串值换行控制</li>
+                    </ul>
+                </li>
+                <li>
+                    <time>2011-02-23</tile>
+                    <ul>
+                        <li>JSON可视化</li>
+                    </ul>
+                </li>
+            </ol>
+            <h2>计划事项</h2>
+            <ol id="tasks">
+                <li>
+                    <span>第一阶段</span>
+                    <ul>
+                        <li>可视化界面工具栏</li>
+                        <li>插件体系</li>
+                    </ul>
+                </li>
+                <li>
+                    <span>第二阶段</span>
+                    <ul>
+                        <li>数值滑动插件</li>
+                        <li>颜色拾取插件</li>
+                        <li>布尔型取反插件</li>
+                        <li>数组排序插件</li>
+                    </ul>
+                </li>
+                <li>
+                    <span>第三阶段</span>
+                    <ul>
+                        <li>键值内联编辑插件</li>
+                        <li>属性删除插件</li>
+                        <li>状态机解析JSON</li>
+                    </ul>
+                </li>
+            </ol>
+        </aside>
+    </div>
+    <div id="root" style="display: none;"></div>
+    <div id="modal" style="display: none;"></div>
+    <div id="dialog" style="display: none;">
+        <h3></h3>
+        <p></p>
+    </div>
+    <script src="script/jquery-1.7.1.js"></script>
+    <script src="script/home.js"></script>
+    <script src="script/input.js"></script>
+    <script src="script/visual.js"></script>
+</body>
+</html>

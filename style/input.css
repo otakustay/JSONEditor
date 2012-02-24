@@ -1,0 +1,63 @@
+#page {
+    width: 960px;
+    margin: 2em auto;
+    display: -webkit-box;
+    display: -moz-box;
+    display: box;
+    -webkit-box-orient: horizontal;
+    -moz-box-orient: horizontal;
+    box-orient: horizontal;
+    -webkit-box-flex: 200;
+    -moz-box-flex: 200;
+    box-flex: 200;
+}
+#content {
+    margin: 0 20px;
+    width: 640px;
+    border-right: 1px solid black;
+    padding-right: 10px;
+}
+
+#json {
+    width: 100%;
+    resize: none;
+    box-sizing: border-box;
+    border: 1px solid #00a5e7;
+    height: 320px;
+}
+#json.drag-over {
+    background-color: #cfedfa;
+}
+#instruction>p {
+    float: left;
+}
+#test {
+    cursor: pointer;
+    color: blue;
+}
+#submit {
+    float: right;
+    border: none;
+    background-color: #00a4e6;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px 20px;
+}
+#submit:active {
+    background-color: #76b83f;
+}
+
+#events ul, #tasks ul {
+    margin-left: 2ex;
+}
+#events ul>li::before {
+    content: "\2713";
+    color: green;
+    padding-right: 1ex;
+}
+#tasks ul>li::before {
+    content: "\2717";
+    color: red;
+    padding-right: 1ex;
+}
