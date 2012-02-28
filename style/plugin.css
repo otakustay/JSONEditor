@@ -1,0 +1,27 @@
+.popup {
+    position: absolute;
+    border: 6px solid #393;
+    background-color: #393;
+    color: #fff;
+}
+.popup-content {
+    overflow: hidden;
+}
+.popup-anchor {
+    /* 向下的三角 */
+    border: 5px solid transparent;
+    border-top-color: #393;
+
+    position: absolute;
+
+    /* 水平居中 */
+    left: 50%;
+    margin-left: -5px; /* border */
+
+    /* 向下露出 */
+    bottom: -16px; /* border * 2 + padding */
+    /* 必须有width才能定位，但不能显示字 */
+    font-size: 0;
+    height: 0;
+    overflow: hidden;
+}
