@@ -5,14 +5,14 @@ var tabWidth = 4;
         try {
             var o = JSON.parse(text);
 
-            var root = document.querySelector('#root');
+            var root = document.getElementById('root');
             root.innerHTML = '';
             for (var key in o) {
                 generatePropertySection(key, o[key], root);
             }
 
-            document.querySelector('#page').style.display = 'none';
-            document.querySelector('#root').style.display = 'block';
+            $('#page').hide();
+            $('#root').show();
 
             if (addHistoryEntry) {
                 history.replaceState(text, 'JSON Visualizer', 'home');
@@ -127,6 +127,11 @@ var tabWidth = 4;
     var rules = (function() {
         var sheet = [].filter.call(document.styleSheets, function(s) { return s.href && s.href.indexOf('visual') >= 0; })[0];
         var result = [];
+
+        if (!sheet.cssRules) {
+            return result;
+        }
+
         for (var i = 0; i < sheet.cssRules.length; i++) {
             var rule = sheet.cssRules[i];
             console.log(rule.selectorText);
