@@ -1,0 +1,15 @@
+.boolean-editor>span {
+    float: left;
+    padding: 4px 12px;
+    width: 7ex;
+    text-align: center;
+    cursor: pointer;
+}
+.boolean-editor>.false {
+    color: #e51400;
+}
+.boolean-editor>.current {
+    color: yellow;
+    font-weight: bold;
+    background: #1ba1e2;
+}
