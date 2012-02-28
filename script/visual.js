@@ -134,7 +134,6 @@ var tabWidth = 4;
 
         for (var i = 0; i < sheet.cssRules.length; i++) {
             var rule = sheet.cssRules[i];
-            console.log(rule.selectorText);
             if (rule.selectorText === '.array-content, .object-content') {
                 result.push({ rule: rule, extra: 2 }); // tab的宽外加key的前缀
             }
