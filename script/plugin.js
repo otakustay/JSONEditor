@@ -9,6 +9,11 @@ var plugin = {};
     var anchor = element.children('.popup-anchor');
     var attached = false;
 
+    /**
+     * 将Popup关联到指定元素上
+     *
+     * @param {string|Element|object} 指定元素的选择器、DOM对象或jQuery对象
+     */
     function attachTo(target) {
         if (attached) {
             detach(true);
@@ -89,6 +94,11 @@ var plugin = {};
         attached = target;
     }
 
+    /**
+     * 解除Popup
+     *
+     * @param {boolean} [immediate=false] 指定是否立即消失，如值为false则有动画渐隐效果。
+     */
     function detach(immediate) {
         if (!attached) {
             return;
@@ -104,16 +114,21 @@ var plugin = {};
         attached = false;
     }
 
+    /**
+     * 判断当前Popup是否关联在指定元素上
+     *
+     * @param {string|Element|object} 判断关联目标的选择器、DOM元素或jQuery对象
+     * @returns {boolean} Popup是否与指定的元素关联
+     */
     function isAttachedTo(target) {
         target = $(target);
 
         if (!attached) {
             return false;
         }
-        if (target[0] === attached[0]) {
-            return true;
-        }
-        return $.contains(attached[0], target[0]);
+
+        // 目标元素为当前停靠的元素本身或者其子元素
+        return target[0] === attached[0] || $.contains(attached[0], target[0]);
     }
 
     element.hide().appendTo(body);
@@ -125,10 +140,14 @@ var plugin = {};
             if (element[0] !== e.target && !$.contains(element[0], e.target) && !isAttachedTo(e.target)) {
                 detach();
             }
-
         }
     );
 
+    /**
+     * 向插件系统请求一个Popup
+     *
+     * @returns {object} 如有可用Popup则返回Popup对象，否则返回null
+     */
     plugin.requestPopup = function() {
         detach(true);
 
@@ -138,6 +157,13 @@ var plugin = {};
             isAttachedTo: isAttachedTo
         }
     };
+
+    /**
+     * 向插件系统请求与指定元素关联的Popup
+     *
+     * @param {string|Element|object} 判断关联目标的选择器、DOM元素或jQuery对象
+     * @returns {object} 如果有Popup且与指定的元素存在关联则返回该Popup对象，否则返回null
+     */
     plugin.requestAttachedPopupFor = function(element) {
         if (isAttachedTo(element)) {
             return {
