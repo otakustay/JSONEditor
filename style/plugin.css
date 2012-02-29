@@ -8,20 +8,30 @@
     overflow: hidden;
 }
 .popup-anchor {
-    /* 向下的三角 */
+    /* 制作三角箭头 */
     border: 5px solid transparent;
-    border-top-color: #393;
 
+    /* 定位露出 */
     position: absolute;
 
     /* 水平居中 */
     left: 50%;
     margin-left: -5px; /* border */
 
-    /* 向下露出 */
-    bottom: -16px; /* border * 2 + padding */
     /* 必须有width才能定位，但不能显示字 */
     font-size: 0;
     height: 0;
     overflow: hidden;
+}
+.popup-above>.popup-anchor {
+    /* 向下露出 */
+    border-top-color: #393;
+    top: auto;
+    bottom: -16px; /* border * 2 + padding */
+}
+.popup-below>.popup-anchor {
+    /* 向上露出 */
+    border-bottom-color: #393;
+    top: -16px; /* border * 2 + padding */
+    bottom: auto;
 }
