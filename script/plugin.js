@@ -1,5 +1,9 @@
 var plugin = {};
 
+plugin.isInVisualMode = function() {
+    return location.href.indexOf('/visual') >= 0;
+};
+
 // Popup
 (function() {
     var body = $('body');
@@ -175,5 +179,32 @@ var plugin = {};
         else {
             return null;
         }
-    }
+    };
+}());
+
+// Toolbar
+(function() {
+    // TODO: 美化Toolbar
+    var bar = $('<div class="toolbar"></div>').prependTo('body');
+    var itemTemplate = '<div class="toolbar-item {0}">{1}</div>';
+
+    // TODO: mouseenter的情况下后退至input怎么处理？增加visualModeChanged事件？
+    bar.hover(
+        function() {
+            if (plugin.isInVisualMode()) {
+                bar.addClass('active');
+            }
+        },
+        function() {
+            bar.removeClass('active');
+        }
+    );
+
+    plugin.addToolbarItem = function(options) {
+        var html = itemTemplate.replace(/\{0\}/, options.name).replace(/\{1\}/, options.text);
+        var item = $(html).appendTo(bar);
+        if (options.click) {
+            item.on('click', options.click);
+        }
+    };
 }());
