@@ -214,8 +214,13 @@ plugin.isInVisualMode = function() {
     var body = $('body');
     var frame = $('<div class="modal-frame"></div>').hide().appendTo(body);
     var modal = $('<div class="modal"></div>').hide().appendTo(body);
+    var currentFrame = null;
 
     function show() {
+        if (this !== currentFrame) {
+            return false;
+        }
+        
         modal.show();
 
         /*
@@ -238,14 +243,20 @@ plugin.isInVisualMode = function() {
             .css('top', Math.round(scrollTop + (pageHeight / 2) - Math.min(allowedTopAdjust, height / 2)))
             .css('left', '50%')
             .css('margin-left', -Math.round(width / 2));
+
+        return true;
     }
 
     function hide() {
+        if (this !== currentFrame) {
+            return false;
+        }
+
         switch (this.hideAction) {
             case 'detach':
                 frame.children().detach();
                 break;
-            case 'dispose':
+            default:
                 frame.empty();
                 break;
         }
@@ -255,25 +266,25 @@ plugin.isInVisualMode = function() {
 
         frame.hide();
         modal.hide();
+
+        currentFrame = null;
+        return true;
     }
 
-    function dispose() {
-        frame.empty();
-    }
-
-    modal.on('mousedown', hide);
+    modal.on('mousedown', function() { currentFrame.hide(); });
 
     plugin.requestModalFrame = function() {
         if (frame.is(':visible')) {
             return null;
         }
 
-        return {
+        currentFrame = {
             dom: frame[0],
             show: show,
             hide: hide,
-            dispose: dispose,
             hideAction: 'dispose'
         };
+
+        return currentFrame;
     };
 }());
