@@ -100,7 +100,7 @@ plugin.formatTempalte = function(template, data) {
             dispose: dispose,
             isActive: isActive,
             canUse: canUse,
-            contentReusable: false
+            contentReusable: { value: false, writable: true }
         });
 
         modal.on('mousedown', dispose.bind(context));
