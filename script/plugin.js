@@ -208,3 +208,72 @@ plugin.isInVisualMode = function() {
         }
     };
 }());
+
+// ModalFrame
+(function() {
+    var body = $('body');
+    var frame = $('<div class="modal-frame"></div>').hide().appendTo(body);
+    var modal = $('<div class="modal"></div>').hide().appendTo(body);
+
+    function show() {
+        modal.show();
+
+        /*
+         * 按以下方法定位：
+         * 1. 尽量放在窗口中间
+         * 2. 如果纵向空间不够，则向上移动，最多离上边距有{padding}的距离
+         * 3. 如果超出视窗，交给视窗的滚动条处理
+         */
+        var win = $(window);
+        var pageWidth = win.width();
+        var pageHeight = win.height();
+        var scrollTop = win.scrollTop();
+        var scrollLeft = win.scrollLeft();
+        var width = frame.width();
+        var height = frame.height();
+        var padding = 20;
+        var allowedTopAdjust = pageHeight / 2 - padding;
+        frame
+            .show()
+            .css('top', Math.round(scrollTop + (pageHeight / 2) - Math.min(allowedTopAdjust, height / 2)))
+            .css('left', '50%')
+            .css('margin-left', -Math.round(width / 2));
+    }
+
+    function hide() {
+        switch (this.hideAction) {
+            case 'detach':
+                frame.children().detach();
+                break;
+            case 'dispose':
+                frame.empty();
+                break;
+        }
+
+        var a = null;
+        var b = undefined;
+
+        frame.hide();
+        modal.hide();
+    }
+
+    function dispose() {
+        frame.empty();
+    }
+
+    modal.on('mousedown', hide);
+
+    plugin.requestModalFrame = function() {
+        if (frame.is(':visible')) {
+            return null;
+        }
+
+        return {
+            dom: frame[0],
+            show: show,
+            hide: hide,
+            dispose: dispose,
+            hideAction: 'dispose'
+        };
+    };
+}());

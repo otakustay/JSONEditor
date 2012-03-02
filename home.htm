@@ -68,6 +68,7 @@
 
     <link rel="stylesheet" href="plugins/boolean-editor/style.css" />
     <link rel="stylesheet" href="plugins/tab/style.css" />
+    <link rel="stylesheet" href="plugins/theme-switcher/preview.css" />
 </head>
 <body>
     <div id="page">
@@ -84,6 +85,12 @@
         <aside id="sidebar">
             <h2>更新日志</h2>
             <ol id="events">
+                <li>
+                    <time>2011-03-02</time>
+                    <ul>
+                        <li>插件体系 - ModalFrame模块</li>
+                    </ul>
+                </li>
                 <li>
                     <time>2011-02-29</time>
                     <ul>
@@ -145,7 +152,7 @@
             </ol>
         </aside>
     </div>
-    <div id="root" style="display: none;"></div>
+    <div id="root" class="visual-root" style="display: none;"></div>
     <div id="modal" style="display: none;"></div>
     <div id="dialog" style="display: none;">
         <h3></h3>
@@ -159,5 +166,6 @@
 
     <script src="plugins/boolean-editor/plugin.js"></script>
     <script src="plugins/tab/plugin.js"></script>
+    <script src="plugins/theme-switcher/plugin.js"></script>
 </body>
 </html>
