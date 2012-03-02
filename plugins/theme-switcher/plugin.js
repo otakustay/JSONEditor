@@ -85,7 +85,7 @@
         text: '更换皮肤',
         click: function() {
             var frame = plugin.requestModalFrame();
-            frame.hideAction = 'detach'; // 内容可复用
+            frame.contentReusable = true; // 内容可复用
             wrapper.appendTo(frame.dom);
             frame.show();
         }

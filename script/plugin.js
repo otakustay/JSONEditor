@@ -4,6 +4,103 @@ plugin.isInVisualMode = function() {
     return location.href.indexOf('/visual') >= 0;
 };
 
+(function() {
+    var body = $('body');
+    var win = $(window);
+    var doc = $(document);
+
+    //ModalFrame
+    function ModalFrame() {
+        var frame = $('<div class="modal-frame"></div>').hide();
+        var modal = $('<div class="modal"></div>').hide();
+        var disposed = false;
+
+        function canUse() {
+            return !disposed;
+        }
+
+        function show() {
+            if (disposed) {
+                return;
+            }
+
+            frame.appendTo(body);
+            modal.appendTo(body).show();
+
+            /*
+             * 按以下方法定位：
+             * 1. 尽量放在窗口中间
+             * 2. 如果纵向空间不够，则向上移动，最多离上边距有{padding}的距离
+             * 3. 如果超出视窗，交给视窗的滚动条处理
+             */
+            var pageWidth = win.width();
+            var pageHeight = win.height();
+            var scrollTop = win.scrollTop();
+            var scrollLeft = win.scrollLeft();
+            var width = frame.width();
+            var height = frame.height();
+            var padding = 20;
+            var allowedTopAdjust = pageHeight / 2 - padding;
+            frame
+                .show()
+                .css('top', Math.round(scrollTop + (pageHeight / 2) - Math.min(allowedTopAdjust, height / 2)))
+                .css('left', '50%')
+                .css('margin-left', -Math.round(width / 2));
+        }
+
+        function dispose() {
+            if (disposed) {
+                return;
+            }
+
+            if (this.contentReusable) {
+                frame.children().detach();
+            }
+
+            frame.remove();
+            modal.remove();
+
+            disposed = true;
+        }
+
+        function isActive() {
+            return frame.is(':visible');
+        }
+
+        var context = {
+            dom: frame[0],
+            show: show,
+            dispose: dispose,
+            isActive: isActive,
+            canUse: canUse,
+            contentReusable: false
+        };
+
+        modal.on('mousedown', dispose.bind(context));
+
+        return context;
+    }
+
+    // 单例维护，只允许出现一个ModalFrame
+    ModalFrame.current = null;
+
+    plugin.requestModalFrame = function() {
+        /*
+         * 如果已经有一个ModalFrame在显示，则无法使用
+         * 如果拿到ModalFrame但保留实例而不显示，则可能会被后续请求抢占，导致该ModalFrame无法显示
+         */
+        if (ModalFrame.current && ModalFrame.current.isActive()) {
+            return null;
+        }
+
+        if (ModalFrame.current) {
+            ModalFrame.current.dispose();
+        }
+        ModalFrame.current = ModalFrame();
+        return ModalFrame.current;
+    };
+}());
+
 // Popup
 (function() {
     var body = $('body');
@@ -206,85 +303,5 @@ plugin.isInVisualMode = function() {
         if (options.click) {
             item.on('click', options.click);
         }
-    };
-}());
-
-// ModalFrame
-(function() {
-    var body = $('body');
-    var frame = $('<div class="modal-frame"></div>').hide().appendTo(body);
-    var modal = $('<div class="modal"></div>').hide().appendTo(body);
-    var currentFrame = null;
-
-    function show() {
-        if (this !== currentFrame) {
-            return false;
-        }
-        
-        modal.show();
-
-        /*
-         * 按以下方法定位：
-         * 1. 尽量放在窗口中间
-         * 2. 如果纵向空间不够，则向上移动，最多离上边距有{padding}的距离
-         * 3. 如果超出视窗，交给视窗的滚动条处理
-         */
-        var win = $(window);
-        var pageWidth = win.width();
-        var pageHeight = win.height();
-        var scrollTop = win.scrollTop();
-        var scrollLeft = win.scrollLeft();
-        var width = frame.width();
-        var height = frame.height();
-        var padding = 20;
-        var allowedTopAdjust = pageHeight / 2 - padding;
-        frame
-            .show()
-            .css('top', Math.round(scrollTop + (pageHeight / 2) - Math.min(allowedTopAdjust, height / 2)))
-            .css('left', '50%')
-            .css('margin-left', -Math.round(width / 2));
-
-        return true;
-    }
-
-    function hide() {
-        if (this !== currentFrame) {
-            return false;
-        }
-
-        switch (this.hideAction) {
-            case 'detach':
-                frame.children().detach();
-                break;
-            default:
-                frame.empty();
-                break;
-        }
-
-        var a = null;
-        var b = undefined;
-
-        frame.hide();
-        modal.hide();
-
-        currentFrame = null;
-        return true;
-    }
-
-    modal.on('mousedown', function() { currentFrame.hide(); });
-
-    plugin.requestModalFrame = function() {
-        if (frame.is(':visible')) {
-            return null;
-        }
-
-        currentFrame = {
-            dom: frame[0],
-            show: show,
-            hide: hide,
-            hideAction: 'dispose'
-        };
-
-        return currentFrame;
     };
 }());
