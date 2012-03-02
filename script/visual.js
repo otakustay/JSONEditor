@@ -1,24 +1,34 @@
 (function() {
+    function visualizeTo(o, element) {
+        element = element || document.getElementById('root');
+
+        for (var key in o) {
+            generatePropertySection(key, o[key], element);
+        }
+    }
+    window.visualizeTo = visualizeTo;
+
     function visualize(text, addHistoryEntry) {
+        var o = {};
         try {
-            var o = JSON.parse(text);
-
-            var root = document.getElementById('root');
-            root.innerHTML = '';
-            for (var key in o) {
-                generatePropertySection(key, o[key], root);
-            }
-
-            $('#page').hide();
-            $('#root').show();
-
-            if (addHistoryEntry) {
-                history.replaceState(text, 'JSON Visualizer', 'home');
-                history.pushState(text, 'JSON Visualizer', 'visual');
-            }
+            o = JSON.parse(text);
         }
         catch (syntaxError) {
-            notify('error', 'JSON格式错误', ['输入JSON格式无法通过<code>JSON.parse</code>解析，以下为错误信息：', syntaxError.message].join('<br />'));
+            notify(
+                'error', 
+                'JSON格式错误', 
+                ['输入JSON格式无法通过<code>JSON.parse</code>解析，以下为错误信息：', syntaxError.message].join('<br />')
+            );
+            return;
+        }
+
+        visualizeTo(o);
+        $('#page').hide();
+        $('#root').show();
+
+        if (addHistoryEntry) {
+            history.replaceState(text, 'JSON Visualizer', 'home');
+            history.pushState(text, 'JSON Visualizer', 'visual');
         }
     }
     window.visualize = visualize;

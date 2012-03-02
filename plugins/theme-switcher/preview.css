@@ -1,0 +1,53 @@
+.toolbar-item.switch-theme {
+    background-image: url(icon.png);
+}
+
+.theme-switcher {
+}
+.theme-switcher>div {
+    overflow: hidden;
+}
+
+.theme-preview {
+    float: left;
+    margin: 8px;
+    font-size: 12px !important;
+    line-height: 1 !important;
+    width: 184px;
+    border: 1px solid #939;
+    padding: 4px;
+    cursor: default;
+}
+.theme-preview:hover {
+    background: #393;
+    border-color: #393;
+}
+.theme-preview.active {
+    background: #939;
+}
+.theme-preview>span {
+    display: block;
+    text-align: center;
+    margin-top: 4px;
+}
+.theme-preview>.visual-root {
+    padding: 4px;
+    border: 1px solid #787878;
+}
+
+/* 重置预览样式，字号、行高变小 */
+.theme-preview .property {
+    margin: 0 !important;
+}
+.theme-preview .key::before {
+    content: "" !important;
+}
+.theme-preview .array-content, .theme-preview .object-content {
+    padding-left: 2ex !important;
+}
+.theme-preview .value.object>.object-content {
+    padding-left: 2ex !important;
+}
+.theme-preview .property>.value>.array-end, .theme-preview .property>.value>.object-end {
+    padding-left: 0 !important;
+}

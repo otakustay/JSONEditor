@@ -1,0 +1,30 @@
+/*
+ * 该自动生成的皮肤来源于默认皮肤
+ * 可修改下方任意规则来定制各类型字段的展示效果
+ */
+
+/* global */
+.visual-root[data-theme="fireworks"] {
+    background-color: #404040;
+    color: #addede;
+}
+/* string */
+.visual-root[data-theme="fireworks"] .string>.value>span, .visual-root[data-theme="fireworks"] .value.string>span {
+    color: #e1303b;
+}
+/* number */
+.visual-root[data-theme="fireworks"] .number>.value>span, .visual-root[data-theme="fireworks"] .value.number>span {
+    color: #22c0ff;
+}
+/* boolean */
+.visual-root[data-theme="fireworks"] .boolean>.value>span, .visual-root[data-theme="fireworks"] .value.boolean>span {
+    color: #ffffa0;
+}
+/* null */
+.visual-root[data-theme="fireworks"] .null>.value>span, .visual-root[data-theme="fireworks"] .value.null>span {
+    color: #6080ff;
+}
+/* undefined */
+.visual-root[data-theme="fireworks"] .undefined>.value>span, .visual-root[data-theme="fireworks"] .value.undefined>span {
+    color: #6080ff;
+}

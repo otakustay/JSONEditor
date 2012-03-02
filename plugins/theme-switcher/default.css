@@ -1,0 +1,26 @@
+/* global */
+.visual-root[data-theme="default"] {
+    background-color: #272822;
+    color: #fff;
+}
+/* string */
+.visual-root[data-theme="default"] .string>.value>span, .visual-root[data-theme="default"] .value.string>span {
+    color: #e6db5a;
+    white-space: pre;
+}
+/* number */
+.visual-root[data-theme="default"] .number>.value>span, .visual-root[data-theme="default"] .value.number>span {
+    color: #ae81ff;
+}
+/* boolean */
+.visual-root[data-theme="default"] .boolean>.value>span, .visual-root[data-theme="default"] .value.boolean>span {
+    color: #f9264c;
+}
+/* null */
+.visual-root[data-theme="default"] .null>.value>span, .visual-root[data-theme="default"] .value.null>span {
+    color: #66d9ef;
+}
+/* undefined */
+.visual-root[data-theme="default"] .undefined>.value>span, .visual-root[data-theme="default"] .value.undefined>span {
+    color: #66d9ef;
+}
