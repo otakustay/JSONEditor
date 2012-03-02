@@ -1,5 +1,10 @@
 #root {
     padding: 8px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    min-width: 100%;
+    min-height: 100%;
 }
 .property {
     overflow: hidden;
