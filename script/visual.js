@@ -2,6 +2,8 @@
     function visualizeTo(o, element) {
         element = element || document.getElementById('root');
 
+        $(element).empty();
+
         for (var key in o) {
             generatePropertySection(key, o[key], element);
         }
