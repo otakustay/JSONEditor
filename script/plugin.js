@@ -4,6 +4,10 @@ plugin.isInVisualMode = function() {
     return location.href.indexOf('/visual') >= 0;
 };
 
+plugin.formatTempalte = function(template, data) {
+    return template.replace(/\{(\w+)\}/g, function(match, name) { return data[name]; });
+};
+
 (function() {
     var body = $('body');
     var win = $(window);
@@ -311,35 +315,31 @@ plugin.isInVisualMode = function() {
             return null;
         }
     };
-}());
 
-// Popup
-(function() {
-}());
+    // Toolbar
+    (function() {
+        // TODO: 美化Toolbar
+        var bar = $('<div class="toolbar"></div>').prependTo('body');
+        var itemTemplate = '<div class="toolbar-item {name}">{text}</div>';
 
-// Toolbar
-(function() {
-    // TODO: 美化Toolbar
-    var bar = $('<div class="toolbar"></div>').prependTo('body');
-    var itemTemplate = '<div class="toolbar-item {0}">{1}</div>';
-
-    // TODO: mouseenter的情况下后退至input怎么处理？增加visualModeChanged事件？
-    bar.hover(
-        function() {
-            if (plugin.isInVisualMode()) {
-                bar.addClass('active');
+        // TODO: mouseenter的情况下后退至input怎么处理？增加visualModeChanged事件？
+        bar.hover(
+            function() {
+                if (plugin.isInVisualMode()) {
+                    bar.addClass('active');
+                }
+            },
+            function() {
+                bar.removeClass('active');
             }
-        },
-        function() {
-            bar.removeClass('active');
-        }
-    );
+        );
 
-    plugin.addToolbarItem = function(options) {
-        var html = itemTemplate.replace(/\{0\}/, options.name).replace(/\{1\}/, options.text);
-        var item = $(html).appendTo(bar);
-        if (options.click) {
-            item.on('click', options.click);
-        }
-    };
+        plugin.addToolbarItem = function(options) {
+            var html = plugin.formatTempalte(itemTemplate, options);
+            var item = $(html).appendTo(bar);
+            if (options.click) {
+                item.on('click', options.click);
+            }
+        };
+    }());
 }());
