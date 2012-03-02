@@ -21,7 +21,8 @@
         { name: 'violet', text: '紫罗兰' },
         { name: 'fireworks', text: '花火' },
         { name: 'lazy', text: '慵懒' },
-        { name: 'space', text: '宇宙' }
+        { name: 'space', text: '宇宙' },
+        { name: 'madoka', text: '五色' },
     ];
     var currentTheme = localStorage.getItem('currentTheme') || 'default';
     var wrapper = $('<div />').addClass('theme-switcher');

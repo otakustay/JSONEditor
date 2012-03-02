@@ -1,0 +1,30 @@
+/*
+ * 该自动生成的皮肤来源于默认皮肤
+ * 可修改下方任意规则来定制各类型字段的展示效果
+ */
+
+/* global */
+.visual-root[data-theme="madoka"] {
+    background: #000 url(madoka.jpg) no-repeat fixed right bottom;
+    color: #f6a3bd;
+}
+/* string */
+.visual-root[data-theme="madoka"] .string>.value>span, .visual-root[data-theme="madoka"] .value.string>span {
+    color: #c71717;
+}
+/* number */
+.visual-root[data-theme="madoka"] .number>.value>span, .visual-root[data-theme="madoka"] .value.number>span {
+    color: #448eb3;
+}
+/* boolean */
+.visual-root[data-theme="madoka"] .boolean>.value>span, .visual-root[data-theme="madoka"] .value.boolean>span {
+    color: #efdb18;
+}
+/* null */
+.visual-root[data-theme="madoka"] .null>.value>span, .visual-root[data-theme="madoka"] .value.null>span {
+    color: #4f3538;
+}
+/* undefined */
+.visual-root[data-theme="madoka"] .undefined>.value>span, .visual-root[data-theme="madoka"] .value.undefined>span {
+    color: #4f3538;
+}
