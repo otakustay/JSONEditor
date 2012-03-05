@@ -8,7 +8,7 @@
     function setValue(value, element) {
         element.innerHTML = value;
 
-        var popup = plugin.requestAttachedPopupFor(element);
+        var popup = requestAttachedPopupFor(element);
         if (popup) {
             var current = $(popup.dom).find('.' + value);
             current.siblings().removeClass('current');
@@ -31,7 +31,7 @@
             }
             // 否则显示编辑器
             else {
-                var popup = plugin.requestPopup();
+                var popup = requestPopup();
                 popup.dom.innerHTML = editorTemplate;
                 $(popup.dom).find('.' + currentValue).addClass('current');
                 popup.attachTo(target);

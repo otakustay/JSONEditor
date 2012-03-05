@@ -54,7 +54,7 @@
     $(document).on(
         'keydown',
         function(e) {
-            if (!plugin.isInVisualMode()) {
+            if (!isInVisualMode()) {
                 return;
             }
 
@@ -70,12 +70,12 @@
         }
     );
 
-    plugin.addToolbarItem({
+    addToolbarItem({
         name: 'tab-collapse',
         text: '减小缩进',
         click: collapseTabWidth
     });
-    plugin.addToolbarItem({
+    addToolbarItem({
         name: 'tab-expand',
         text: '增大缩进',
         click: expandTabWidth
