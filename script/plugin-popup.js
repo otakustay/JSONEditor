@@ -163,7 +163,7 @@
      *
      * @returns {object} 一个Popup对象。
      */
-    requestPopup = function() {
+    window.requestPopup = function() {
         if (current) {
             current.dispose(true);
         }
@@ -178,7 +178,7 @@
      * @param {Element} 判断关联目标的DOM元素。
      * @returns {object} 如果有Popup且与指定的元素存在关联则返回该Popup对象，否则返回null
      */
-    requestAttachedPopupFor = function(element) {
+    window.requestAttachedPopupFor = function(element) {
         var available = current;
         if (available && available.canUse && available.isAttachedTo(element)) {
             return available;
