@@ -161,6 +161,13 @@
      * 默认情况下，系统同一时间只允许一个Popup存在，如果有新的申请Popup的请求，则将先前的一个销毁。
      * 对于Popup的实例个数，随着系统的发展可能会有所变更。
      *
+     * 一个Popup对象有以下函数/属性
+     *   dom - 获取Popup的核心DOM对象，可通过将元素填充到该DOM对象中来控制展现的内容。
+     *   attachTo(element) - 将当前Popup对象与一个DOM元素关联，Popup会自动计算位置并显示。
+     *   isAttachedTo(element) - 判断当前的Popup对象是否一指定的DOM元素关联。
+     *                           当指定的DOM元素与Popup关联的DOM元素相同，或为Popup关联的DOM元素的子元素时，返回true。
+     *   canUse - 判断当前的Popup对象是否可用，如果不可用，则attachTo等函数均不起任何作用。
+     *
      * @returns {object} 一个Popup对象。
      */
     window.requestPopup = function() {
