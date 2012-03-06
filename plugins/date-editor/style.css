@@ -1,0 +1,11 @@
+.date-hint {
+    color: #999;
+    padding-left: 1ex;
+    font-size: 12px;
+}
+.date-hint::before {
+    content: "(";
+}
+.date-hint::after {
+    content: ")";
+}
