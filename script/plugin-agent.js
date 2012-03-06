@@ -86,20 +86,20 @@
         throw new Error('Constructure Error');
     }
 
-    function getPropertyType(propertyElement) {
+    function getPropertyTypes(propertyElement) {
         // 从classList中提取
-        var types = ['number', 'string', 'boolean', 'null', 'undefined'];
-        var matchedTypes = [].filter.call(
+        var nativeTypes = ['number', 'string', 'boolean', 'null', 'undefined'];
+        var types = [].filter.call(
             propertyElement.classList,
-            function(t) { return types.indexOf(t) >= 0; }
+            function(t) { return t.indexOf('type-') === 0; }
         );
 
         // TODO: 稳定后移除
-        if (matchedTypes.length !== 1) {
+        if (!matchedTypes.length) {
             throw new Error('Type Extract Error');
         }
 
-        return matchedTypes[0] || 'unknown';
+        return types.map(function(t) { return t.substring(5); });
     }
 
     function getPath(element) {
@@ -170,7 +170,7 @@
                     // 判断类型
                     if (targetType !== '*') {
                         var propertyElement = getPropertyElement(container);
-                        if (!propertyElement.classList.contains(targetType)) {
+                        if (!propertyElement.classList.contains('type-' + targetType)) {
                             return;
                         }
                     }
@@ -182,11 +182,4 @@
             }
         });
     };
-
-    // TODO: 仅演示用
-    getAgentFor('value').ofType('*')
-        .on('click', function(e) { console.log('Click on value of: ' + getPath(e.target).join(' > ')); });
-
-    getAgentFor('key').ofType('*')
-        .on('click', function(e) { console.log('Click on key of: ' + getPath(e.target).join(' > ')); });
 }());

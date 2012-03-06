@@ -18,9 +18,9 @@
 
     // 初始化boolean-editor
     // CTRL+单击取反
-    $('#root').on(
+    var agent = getAgentFor('value').ofType('boolean');
+    agent.on(
         'click',
-        '.boolean>.value>span, .value.boolean>span',
         function(e) {
             var target = e.target;
             var currentValue = target.innerHTML.trim() === 'true' ? true : false;
