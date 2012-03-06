@@ -1,6 +1,17 @@
 (function() {
     var root = document.getElementById('root');
 
+    function getValidContainer(element) {
+        var container = element;
+        while (!container.classList.contains('key') && !container.classList.contains('value')) {
+            if (container === root) {
+                return null;
+            }
+            container = container.parentNode;
+        }
+        return container;
+    }
+
     function getPropertyElement(element) {
         /*
          * 有以下情况：
@@ -14,12 +25,10 @@
          *   4. 当前元素本身就是一个属性元素，自身有{.property}
          */
         // 先找到最近的.key或.value元素
-        var container = element;
-        while (!container.classList.contains('key') && !container.classList.contains('value')) {
-            if (container === root) {
-                return null;
-            }
-            container = container.parentNode;
+        var container = getValidContainer(element);
+
+        if (!container) {
+            return null;
         }
 
         // 如果有.key，则当前元素是键，按分支1查找
@@ -77,6 +86,21 @@
         throw new Error('Constructure Error');
     }
 
+    function getPropertyType(propertyElement) {
+        // 从classList中提取
+        var types = ['number', 'string', 'boolean', 'null', 'undefined'];
+        var matchedTypes = [].filter.call(
+            propertyElement.classList,
+            function(t) { return types.indexOf(t) >= 0; }
+        );
+
+        // TODO: 稳定后移除
+        if (matchedTypes.length !== 1) {
+            throw new Error('Type Extract Error');
+        }
+
+        return matchedTypes[0] || 'unknown';
+    }
 
     function getPath(element) {
         var path = [];
@@ -89,12 +113,80 @@
         return path;
     }
 
-    window.getPropertyAgentFor = function(element) {
+    /**
+     * 获取一个特定类型区块的代理。
+     * 代理作为插件的基础对象，提供了对整个JSONEditor特地部分的操作能力。
+     *
+     * @param {string} [targetSection=*] 代理需要处理的区块类型，可取值key、value或*，分别表示代理键、值和所有区块，默认为*
+     * @return {object} 一个代理对象
+     */
+    window.getAgentFor = function(targetSection) {
+        targetSection = targetSection || '*';
+        var targetType = '*';
+        var behaviors = [];
+
         return $.spawn({
-            path: getPath(element)
+            /**
+             * 指定代理的属性类型。
+             *
+             * @param {string} value 指定的属性类型，可以为number、string、array等
+             * @return {object} 添加了属性类型后的当前代理对象
+             */
+            ofType: function(value) {
+                targetType = value;
+                return this;
+            },
+
+            /**
+             * 添加一个行为。
+             *
+             * @param {object} 需要添加的行为
+             */
+            addBehavior: function(behavior) {
+                behaviors.push(behavior);
+            },
+
+            /**
+             * 监听一个事件。
+             *
+             * @param {string} 事件类型
+             * @param {selector} 响应事件的元素的选择器
+             * @param {handler} 处理事件的函数
+             */
+            on: function(type, selector, handler) {
+                if (arguments.length === 2) {
+                    handler = selector;
+                    selector = undefined;
+                }
+
+                function fn(e) {
+                    var container = getValidContainer(e.target);
+                    // 判断区域
+                    if (targetSection !== '*') {
+                        if (!container.classList.contains(targetSection)) {
+                            return;
+                        }
+                    }
+                    // 判断类型
+                    if (targetType !== '*') {
+                        var propertyElement = getPropertyElement(container);
+                        if (!propertyElement.classList.contains(targetType)) {
+                            return;
+                        }
+                    }
+
+                    handler.call(this, e);
+                }
+
+                $('#root').on(type, selector, fn);
+            }
         });
     };
 
-    // TODO: 仅测试如何使用，日后移除
-    $('#root').click(function(e) { console.log(getPropertyAgentFor(e.target).path); });
+    // TODO: 仅演示用
+    getAgentFor('value').ofType('*')
+        .on('click', function(e) { console.log('Click on value of: ' + getPath(e.target).join(' > ')); });
+
+    getAgentFor('key').ofType('*')
+        .on('click', function(e) { console.log('Click on key of: ' + getPath(e.target).join(' > ')); });
 }());
