@@ -9,22 +9,22 @@
     color: #f6a3bd;
 }
 /* string */
-.visual-root[data-theme="madoka"] .string>.value>span, .visual-root[data-theme="madoka"] .value.string>span {
+.visual-root[data-theme="madoka"] .type-string>.value>span, .visual-root[data-theme="madoka"] .value.type-string>span {
     color: #c71717;
 }
 /* number */
-.visual-root[data-theme="madoka"] .number>.value>span, .visual-root[data-theme="madoka"] .value.number>span {
+.visual-root[data-theme="madoka"] .type-number>.value>span, .visual-root[data-theme="madoka"] .value.type-number>span {
     color: #448eb3;
 }
 /* boolean */
-.visual-root[data-theme="madoka"] .boolean>.value>span, .visual-root[data-theme="madoka"] .value.boolean>span {
+.visual-root[data-theme="madoka"] .type-boolean>.value>span, .visual-root[data-theme="madoka"] .value.type-boolean>span {
     color: #efdb18;
 }
 /* null */
-.visual-root[data-theme="madoka"] .null>.value>span, .visual-root[data-theme="madoka"] .value.null>span {
+.visual-root[data-theme="madoka"] .type-null>.value>span, .visual-root[data-theme="madoka"] .value.type-null>span {
     color: #4f3538;
 }
 /* undefined */
-.visual-root[data-theme="madoka"] .undefined>.value>span, .visual-root[data-theme="madoka"] .value.undefined>span {
+.visual-root[data-theme="madoka"] .type-undefined>.value>span, .visual-root[data-theme="madoka"] .value.type-undefined>span {
     color: #4f3538;
 }

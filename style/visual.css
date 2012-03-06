@@ -53,14 +53,14 @@
 }
 
 /* 不同类型的配置 */
-.string>.value>span, .value.string>span {
+.type-string>.value>span, .value.type-string>span {
     color: green;
     white-space: pre;
 }
-.null>.value>span, .value.null>span, 
-.undefined>.value>span, .value.undefined>span {
+.type-null>.value>span, .value.type-null>span, 
+.type-undefined>.value>span, .value.type-undefined>span {
     color: gray;
 }
-.boolean>.value>span, .value.boolean>span {
+.boolean>.value>span, .value.type-boolean>span {
     color: blue;
 }
