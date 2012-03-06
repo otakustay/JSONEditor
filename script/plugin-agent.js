@@ -163,7 +163,8 @@
                     var container = getValidContainer(e.target);
                     // 判断区域
                     if (targetSection !== '*') {
-                        if (!container.classList.contains(targetSection)) {
+                        // 直接点在.value或.key上不算，必须点在其内部的span等内联元素上
+                        if (e.target === container || !container.classList.contains(targetSection)) {
                             return;
                         }
                     }
