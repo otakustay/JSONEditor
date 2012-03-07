@@ -205,12 +205,3 @@
         }
     }
 }());
-
-// $(document).on(
-//     'mousedown',
-//     '.object>.key, .array>.key',
-//     function(e) {
-//         var target = $(e.target);
-//         target.parent().toggleClass('collapsed');
-//     }
-// );

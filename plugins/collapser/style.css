@@ -1,0 +1,21 @@
+.property-hint {
+    float: left;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+/* 折叠效果 */
+.collapsed>.value>.array-content, .collapsed>.value>.object-content,
+.value.collapsed>.array-content, .value.collapsed>.object-content {
+    display: none;
+}
+.collapsed>.value>.array-end, .collapsed>.value>.object-end,
+.collapsed.value>.array-end, .collapsed.value>.object-end {
+    padding-left: 0;
+}
+.collapsed>.value>.array-start::after, .collapsed>.value>.object-start::after,
+.collapsed.value>.array-start::after, .collapsed.value>.object-start::after {
+    content: "...";
+    color: gray;
+}

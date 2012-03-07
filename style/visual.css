@@ -14,10 +14,6 @@
     float: left;
     font-weight: bold;
 }
-.key::before {
-    content: "\2022\00A0";
-    color: #ccc;
-}
 .key::after {
     content: ":\00A0";
 }
@@ -30,26 +26,6 @@
 /* 键值对时的]和}缩进，但在数组内容中不能缩进，所以加.proeprty>.value>前缀 */
 .property>.value>.array-end, .property>.value>.object-end {
     padding-left: 2ex;
-}
-
-/* 折叠效果 */
-.object>.key::before, .array>.key::before {
-    content: "-\00A0";
-    color: #000;
-}
-.collapsed>.key::before, .collapsed>.key::before {
-    content: "+\00A0";
-    color: #000;
-}
-.collapsed>.value>.array-content, .collapsed>.value>.object-content {
-    display: none;
-}
-.collapsed>.value>.array-end, .collapsed>.value>.object-end {
-    padding-left: 0;
-}
-.collapsed>.value>.array-start::after, .collapsed>.value>.object-start::after {
-    content: "...";
-    color: gray;
 }
 
 /* 不同类型的配置 */
