@@ -1,3 +1,8 @@
+var editingObject = {
+    original: {},
+    modified: {}
+};
+
 (function() {
     function createElement(nodeName, className, textContent) {
         var element = document.createElement(nodeName);
@@ -8,35 +13,6 @@
             element.appendChild(document.createTextNode(textContent));
         }
         return element;
-    }
-
-    function generatePropertySection(key, value, container, visualizer) {
-        var type = getTypeConfig(value);
-        var className = 'type-' + type.name;
-        if (type.baseType) {
-            className += ' type-' + type.baseType;
-        }
-        var wrapper = createElement('div', 'property ' + className);
-
-        var keyElement = createElement('span', 'key', key);
-        wrapper.appendChild(keyElement);
-
-        var valueElement = createElement('div', 'value');
-        type.render(value, valueElement, visualizer);
-        wrapper.appendChild(valueElement);
-
-        if (visualizer.dispatchEvent) {
-            var e = {
-                type: 'renderproperty',
-                target: wrapper,
-                propertyType: type.baseType ? [type.name, type.baseType] : [type.name],
-                key: key,
-                value: value
-            };
-            visualizer.dispatchVisualizingEvent(e);
-        }
-
-        container.appendChild(wrapper);
     }
 
     // 不同类型键/值的渲染
@@ -53,6 +29,10 @@
             types[type] = {
                 name: type,
                 render: simple,
+                update: function(value, valueElement) {
+                    var span = valueElement.firstElementChild;
+                    $(span).empty().text(value);
+                },
                 extensions: []
             };
         }
@@ -109,7 +89,7 @@
                 var content = createElement('div', 'object-content', '');
                 for (var key in o) {
                     var value = o[key];
-                    generatePropertySection(key, value, content, visualizer);
+                    visualizer.generatePropertySection(key, value, content, visualizer);
                 }
                 container.appendChild(content);
 
@@ -134,6 +114,7 @@
 
         return baseTypeConfig;
     }
+    window.getTypeConfig = getTypeConfig;
 
     function registerTypeExtension(typeName, baseType, matches, render) {
         var config = {
@@ -171,9 +152,51 @@
         $(element).empty();
 
         for (var key in o) {
-            generatePropertySection(key, o[key], element, this);
+            this.generatePropertySection(key, o[key], element, this);
         }
-    }
+    };
+
+    Visualizer.prototype.generatePropertySection = function(key, value, container, beforeThisElement) {
+        var type = getTypeConfig(value);
+        var className = 'type-' + type.name;
+        if (type.baseType) {
+            className += ' type-' + type.baseType;
+        }
+        var wrapper = createElement('div', 'property ' + className);
+
+        var keyElement = createElement('span', 'key', key);
+        wrapper.appendChild(keyElement);
+
+        var valueElement = createElement('div', 'value');
+        type.render(value, valueElement, this);
+        wrapper.appendChild(valueElement);
+
+        if (this.dispatchEvent) {
+            var e = {
+                type: 'renderproperty',
+                target: wrapper,
+                propertyType: type.baseType ? [type.name, type.baseType] : [type.name],
+                key: key,
+                value: value
+            };
+            this.dispatchVisualizingEvent(e);
+        }
+
+        container.insertBefore(wrapper, beforeThisElement);
+    };
+
+    Visualizer.prototype.updateProperty = function(oldProperty, newProperty, propertyElement) {
+        var oldType = getTypeConfig(oldProperty.value);
+        var newType = getTypeConfig(newProperty.value);
+
+        if (newType === oldType) {
+            var valueElement = propertyElement.querySelector('.value');
+            newType.update(newProperty.value, valueElement, this);
+        }
+        else {
+            // TODO: 实现类型修改后的情况
+        }
+    };
 
     Visualizer.prototype.addVisualizingEventListener = addVisualizingEventListener;
 
@@ -223,6 +246,8 @@
             history.replaceState(text, 'JSON Visualizer', 'home');
             history.pushState(text, 'JSON Visualizer', 'visual');
         }
+
+        editingObject.original = editingObject.modified = o;
     }
     window.visualize = visualize;
 }());
