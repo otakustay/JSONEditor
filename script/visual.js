@@ -41,6 +41,10 @@ var editingObject = {
             render: function(value, container) {
                 simple('"' + value + '"', container);
             },
+            update: function(value, valueElement) {
+                var span = valueElement.firstElementChild;
+                $(span).empty().text('"' + value + '"');
+            },
             extensions: []
         };
         types['array'] = {
@@ -50,6 +54,16 @@ var editingObject = {
                 container.appendChild(start);
 
                 var content = createElement('div', 'array-content');
+                container.appendChild(content);
+                types['array'].update(array, container, visualizer);
+
+                var end = createElement('span', 'array-end', ']');
+                container.appendChild(end);
+            },
+            update: function(array, container, visualizer) {
+                var content = container.querySelector('.array-content');
+                $(content).empty();
+
                 for (var i = 0; i < array.length; i++) {
                     var item = array[i];
                     var type = getTypeConfig(item);
@@ -73,10 +87,6 @@ var editingObject = {
 
                     content.appendChild(wrapper);
                 }
-                container.appendChild(content);
-
-                var end = createElement('span', 'array-end', ']');
-                container.appendChild(end);
             },
             extensions: []
         };
@@ -87,14 +97,18 @@ var editingObject = {
                 container.appendChild(start);
 
                 var content = createElement('div', 'object-content', '');
+                container.appendChild(content);
+                types['object'].update(o, container, visualizer);
+
+                var end = createElement('span', 'object-end', '}');
+                container.appendChild(end);
+            },
+            update: function(o, container, visualizer) {
+                var content = container.querySelector('.object-content');
                 for (var key in o) {
                     var value = o[key];
                     visualizer.generatePropertySection(key, value, content, visualizer);
                 }
-                container.appendChild(content);
-
-                var end = createElement('span', 'object-end', '}');
-                container.appendChild(end);
             },
             extensions: []
         };
