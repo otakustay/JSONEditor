@@ -149,7 +149,7 @@
     // Visualize事件
     var events = {};
     function addVisualizingEventListener(type, targetPropertyType, handle) {
-        var pool = this.events || events;
+        var pool = this === window ? events : (this.events || events);
         if (!handle) {
             handle = targetPropertyType;
             targetPropertyType = undefined;
