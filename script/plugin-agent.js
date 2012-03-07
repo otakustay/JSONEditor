@@ -1,9 +1,18 @@
 (function() {
     var root = document.getElementById('root');
 
+    function hasClass(element, matches) {
+        for (var i = 1; i < arguments.length; i++) {
+            if (element.classList.contains(arguments[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function getValidContainer(element) {
         var container = element;
-        while (!container.classList.contains('key') && !container.classList.contains('value')) {
+        while (!hasClass(container, 'key', 'value', 'property')) {
             if (container === root) {
                 return null;
             }
@@ -32,23 +41,23 @@
         }
 
         // 如果有.key，则当前元素是键，按分支1查找
-        if (container.classList.contains('key')) {
+        if (hasClass(container, 'key')) {
             return container.parentNode;
         }
         // 如果有.value，继续判断是对象属性，还是数组的项
-        else if (container.classList.contains('value')) {
+        else if (hasClass(container, 'value')) {
             var parent = container.parentNode;
             // 是对象的属性，按分支2查找
-            if (parent.classList.contains('property')) {
+            if (hasClass(parent, 'property')) {
                 return parent;
             }
             // 是数组中的项，按分支3查找
-            else if (parent.classList.contains('array-content')) {
+            else if (hasClass(parent, 'array-content')) {
                 return container;
             }
         }
         // 如果有.property，则当前元素是属性本身，按分支4
-        else if (container.classList.contains('property')) {
+        else if (hasClass(container, 'property')) {
             return container;
         }
 
@@ -62,17 +71,17 @@
          *   1. 自己有{.property}，则是对象的属性，查找子元素中的{.key}获得属性名称
          *   2. 自己有{.value}，则是数组中的项，根据自己在父元素中的位置获得索引
          */
-        if (propertyElement.classList.contains('property')) {
+        if (hasClass(propertyElement, 'property')) {
             var children = propertyElement.children;
             var length = children.length;
             for (var i = 0; i < length; i++) {
                 var element = children[i];
-                if (element.classList.contains('key')) {
+                if (hasClass(element, 'key')) {
                     return element.textContent.trim();
                 }
             }
         }
-        else if (propertyElement.classList.contains('value')) {
+        else if (hasClass(propertyElement, 'value')) {
             var i = 0;
             var cursor = propertyElement.previousSibling;
             while (cursor) {
@@ -164,14 +173,14 @@
                     // 判断区域
                     if (targetSection !== '*') {
                         // 直接点在.value或.key上不算，必须点在其内部的span等内联元素上
-                        if (e.target === container || !container.classList.contains(targetSection)) {
+                        if (e.target === container || !hasClass(container, targetSection)) {
                             return;
                         }
                     }
                     // 判断类型
                     if (targetType !== '*') {
                         var propertyElement = getPropertyElement(container);
-                        if (!propertyElement.classList.contains('type-' + targetType)) {
+                        if (!hasClass(propertyElement, 'type-' + targetType)) {
                             return;
                         }
                     }
