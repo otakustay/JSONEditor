@@ -170,7 +170,7 @@ var editingObject = {
         }
     };
 
-    Visualizer.prototype.generatePropertySection = function(key, value, container, beforeThisElement) {
+    Visualizer.prototype.generatePropertySection = function(key, value, container) {
         var type = getTypeConfig(value);
         var className = 'type-' + type.name;
         if (type.baseType) {
@@ -178,37 +178,61 @@ var editingObject = {
         }
         var wrapper = createElement('div', 'property ' + className);
 
+        this.fillPropertyElement(key, value, wrapper);
+
+        container.insertBefore(wrapper);
+    };
+
+    Visualizer.prototype.fillPropertyElement = function(key, value, propertyElement) {
+        var type = getTypeConfig(value);
         var keyElement = createElement('span', 'key', key);
-        wrapper.appendChild(keyElement);
+        propertyElement.appendChild(keyElement);
 
         var valueElement = createElement('div', 'value');
         type.render(value, valueElement, this);
-        wrapper.appendChild(valueElement);
+        propertyElement.appendChild(valueElement);
 
         if (this.dispatchEvent) {
             var e = {
                 type: 'renderproperty',
-                target: wrapper,
+                target: propertyElement,
                 propertyType: type.baseType ? [type.name, type.baseType] : [type.name],
                 key: key,
                 value: value
             };
             this.dispatchVisualizingEvent(e);
         }
-
-        container.insertBefore(wrapper, beforeThisElement);
     };
 
     Visualizer.prototype.updateProperty = function(oldProperty, newProperty, propertyElement) {
         var oldType = getTypeConfig(oldProperty.value);
         var newType = getTypeConfig(newProperty.value);
 
+
         if (newType === oldType) {
+            if (oldProperty.key !== newProperty.key) {
+                var keyElement = propertyElement.querySelector('.key');
+                keyElement.appendChild(document.createTextNode(newProperty.key));
+            }
             var valueElement = propertyElement.querySelector('.value');
             newType.update(newProperty.value, valueElement, this);
         }
         else {
-            // TODO: 实现类型修改后的情况
+            // 删除原来的类型信息
+            for (var i = 0; i < propertyElement.classList.length; i++) {
+                var className = propertyElement.classList[i];
+                if (className.indexOf('type-') === 0) {
+                    propertyElement.classList.remove(className);
+                }
+            }
+            // 添加现有类型信息
+            propertyElement.classList.add('type-' + newType.name);
+            if (newType.baseType) {
+                propertyElement.classList.add('type-' + newType.baseType);
+            }
+            // 完全替换内容
+            $(propertyElement).empty();
+            this.fillPropertyElement(newProperty.key, newProperty.value, propertyElement);
         }
     };
 
