@@ -28,6 +28,7 @@
     var wrapper = $('<div />').addClass('theme-switcher');
 
     // 初始化主题预览面板
+    var visualizer = new Visualizer();
     for (var i = 0; i < themes.length; i++) {
         if (i % 3 === 0) {
             $('<div />').appendTo(wrapper);
@@ -37,7 +38,7 @@
         var container = $('<div />').addClass('theme-preview').attr('data-name', theme.name);
         var content = $('<div />').addClass('visual-root').attr('data-theme', theme.name).appendTo(container);
         var label = $('<span />').text(theme.text).appendTo(container);
-        visualizeTo(previewObject, content[0]);
+        visualizer.visualizeTo(previewObject, content[0]);
 
         container.appendTo(wrapper.children(':last'));
 
