@@ -1,0 +1,29 @@
+.string-editor {
+    overflow: hidden;
+    width: 384px; /* (width(li) + margin(li) * 2) * 3 */
+}
+.string-editor>li {
+    float: left;
+    font-size: 12px;
+    width: 120px;
+    line-height: 120px;
+    background-color: #1ba1e2;
+    text-align: center;
+    margin: 4px;
+    cursor: default;
+}
+.string-editor>li>mark {
+    color: yellow;
+    background-color: transparent;
+}
+.string-editor>li:hover, .string-editor>li.active {
+    background-color: #939;
+}
+.string-editor>.indicator {
+    background-color: transparent;
+    text-indent: -500em;
+    background: transparent url(nav.png) no-repeat 0 0;
+}
+.string-editor>.indicator:hover {
+    background-color: transparent;
+}
