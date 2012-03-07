@@ -170,6 +170,9 @@
 
                 function fn(e) {
                     var container = getValidContainer(e.target);
+                    if (!container) {
+                        return;
+                    }
                     // 判断区域
                     if (targetSection !== '*') {
                         // 直接点在.value或.key上不算，必须点在其内部的span等内联元素上
