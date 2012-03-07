@@ -82,7 +82,7 @@
 // Slide
 (function() {
     var tolerance = 10;
-    
+
     function computeAngle(x, y) {
         // 第一区间
         if (x >= 0 && y >= 0) {
@@ -143,23 +143,37 @@
             var previousDirection = -1;
             var agent = e.agent;
             var accessor = e.accessor;
-
-            var startEvent = createEvent('start', e, validTarget, originX, originY, agent, accessor);
-            this.trigger(startEvent);
-
-            if (startEvent.cancel) {
-                return;
-            }
+            var started = false;
 
             function move(e) {
-                var moveEvent = createEvent('move', e, validTarget, originX, originY);
-                slider.trigger(moveEvent);
+                // 已经开始了滑动行为，触发move和directionchange事件
+                if (started) {
+                    var moveEvent = createEvent('move', e, validTarget, originX, originY);
+                    slider.trigger(moveEvent);
 
-                // TODO: 追查为何direction会是负数
-                if (moveEvent.direction > 0 && moveEvent.direction !== previousDirection) {
-                    previousDirection = moveEvent.direction;
-                    var directionChangeEvent = createEvent('directionchange', e, validTarget, originX, originY, agent, accessor);
-                    slider.trigger(directionChangeEvent);
+                    // TODO: 追查为何direction会是负数
+                    if (moveEvent.direction > 0 && moveEvent.direction !== previousDirection) {
+                        previousDirection = moveEvent.direction;
+                        var directionChangeEvent = createEvent('directionchange', e, validTarget, originX, originY, agent, accessor);
+                        slider.trigger(directionChangeEvent);
+                    }
+                }
+                // 前次移动鼠标偏差还在可允许范围内，计算鼠标偏差来确定是否开始
+                else {
+                    var startEvent = createEvent('start', e, validTarget, originX, originY, agent, accessor);
+                    if (startEvent.offsetX <= tolerance && startEvent.offsetY <= tolerance) {
+                        return;
+                    }
+
+                    slider.trigger(startEvent);
+
+                    // 放弃本次滑动行为
+                    if (startEvent.cancel) {
+                        $.document.off('mousemove', move).off('mouseup', release);
+                    }
+                    else {
+                        started = true;
+                    }
                 }
             }
 
