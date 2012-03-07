@@ -122,6 +122,61 @@
         return path;
     }
 
+    function access(o, path) {
+        var current = o;
+        for (var i = 0; i < path.length; i++) {
+            current = current[path[i]];
+        }
+        return current;
+    }
+
+    /**
+     * 获取一个属性访问器。
+     * 属性访问器负责读取一个属性的值、修改属性的值、修改属性的键或移动属性的位置等一系列操作的封装，并保持对象与DOM的同步。
+     */
+    window.getAccessor = function(element) {
+        var path = getPath(element); // JSON路径
+        var dom = getPropertyElement(element); // 对应的属性的DOM元素
+        var key = getPropertyName(dom); // 键名
+        var context = access(editingObject.modified, path.slice(0, -1)); // 该属性所在的对象
+
+        function update(typeChanged) {
+            var valueElement = dom.querySelector('.value');
+            var value = context[key];
+            var type = getTypeConfig(value);
+            var visualizer = new Visualizer(true);
+            type.render(value, valueElement, visualizer);
+        }
+
+        return $.spawn({
+            path: path,
+            dom: dom,
+            key: {
+                get: function() { return key; },
+                set: function(value) {
+                    context[value] = context[key];
+                    delete context[key];
+                    key = value;
+                    update();
+                }
+            },
+            value: {
+                get: function() { return context[key]; },
+                set: function(newValue) {
+                    var oldValue = context[key];
+                    context[key] = newValue;
+
+                    var visualizer = new Visualizer(true);
+                    visualizer.updateProperty(
+                        { key: key, value: oldValue },
+                        { key: key, value: newValue },
+                        dom
+                    );
+                }
+            }
+        });
+    }
+
     /**
      * 获取一个特定类型区块的代理。
      * 代理作为插件的基础对象，提供了对整个JSONEditor特地部分的操作能力。
@@ -189,7 +244,9 @@
                         }
                     }
 
+                    e.calculatedTarget = container;
                     e.agent = this;
+                    e.accessor = getAccessor(e.target);
                     handler.call(this, e);
                 }
 
