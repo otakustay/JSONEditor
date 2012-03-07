@@ -16,27 +16,39 @@
         }
     }
 
-    function createEditor(e) {
-        var dom = $(e.popup.dom);
-        var target = e.domEvent.target;
-        var currentValue = target.textContent.trim();
-        dom.html(editorTemplate);
-        dom.find('.' + currentValue).addClass('current');
-
-        // 选择true/false值
-        dom.on(
-            'click',
-            '.true, .false',
-            function(e) {
-                var value = e.target.innerHTML.trim() === 'true' ? true : false;
-
-                setValue(value, target);
-            }
-        );
-    }
-
+    // 初始化boolean-editor
+    // CTRL+单击取反
     var agent = getAgentFor('value').ofType('boolean');
-    var popup = behavior.popup();
-    popup.on('fill', createEditor);
-    agent.addBehavior(popup);
+    agent.on(
+        'click',
+        function(e) {
+            var target = e.target;
+            var currentValue = target.innerHTML.trim() === 'true' ? true : false;
+
+            // 如果按着CTRL则取反
+            if (e.ctrlKey) {
+                setValue(!currentValue, target);
+            }
+            // 否则显示编辑器
+            else {
+                var popup = requestPopup();
+                popup.dom.innerHTML = editorTemplate;
+                $(popup.dom).find('.' + currentValue).addClass('current');
+                popup.attachTo(target);
+
+                // 选择true/false值
+                $(popup.dom.firstElementChild).on(
+                    'click',
+                    '.true, .false',
+                    function(e) {
+                        var value = e.target.innerHTML.trim() === 'true' ? true : false;
+
+                        setValue(value, target);
+                    }
+                );
+            }
+
+            return false;
+        }
+    );
 }());
