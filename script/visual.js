@@ -61,6 +61,15 @@
         type.render(value, valueElement);
         wrapper.appendChild(valueElement);
 
+        var e = {
+            type: 'renderproperty',
+            target: wrapper,
+            propertyType: type.baseType ? [type.name, type.baseType] : [type.name],
+            key: key,
+            value: value
+        };
+        dispatchVisualizingEvent(e);
+
         container.appendChild(wrapper);
     }
 
@@ -99,12 +108,22 @@
                 for (var i = 0; i < array.length; i++) {
                     var item = array[i];
                     var type = getTypeConfig(item);
-                    var className = 'valuetype-' + type.name;
+                    var className = 'type-' + type.name;
                     if (type.baseType) {
                         className += ' type-' + type.baseType;
                     }
                     var wrapper = createElement('div', 'value ' + className, '');
                     type.render(item, wrapper);
+
+                    var e = {
+                        type: 'renderproperty',
+                        target: wrapper,
+                        propertyType: type.baseType ? [type.name, type.baseType] : [type.name],
+                        key: i,
+                        value: item
+                    };
+                    dispatchVisualizingEvent(e);
+
                     content.appendChild(wrapper);
                 }
                 container.appendChild(content);
@@ -159,13 +178,39 @@
         types[baseType].extensions.push(config);
     }
     window.registerTypeExtension = registerTypeExtension;
+
+    // Visualize事件
+    var events = {};
+    function addVisualizingEventListener(type, targetPropertyType, handle) {
+        if (!handle) {
+            handle = targetPropertyType;
+            targetPropertyType = undefined;
+        }
+
+        var handlers = events[type] || (events[type] = []);
+        handlers.push({ targetPropertyType: targetPropertyType, handle: handle });
+    }
+    window.addVisualizingEventListener = addVisualizingEventListener;
+
+    function dispatchVisualizingEvent(e) {
+        var handlers = events[e.type];
+        if (!handlers) {
+            return;
+        }
+        for (var i = 0; i < handlers.length; i++) {
+            var handler = handlers[i];
+            if (!handler.targetPropertyType || e.propertyType.indexOf(handler.targetPropertyType) >= 0) {
+                handler.handle.call(e.target, e);
+            }
+        }
+    }
 }());
 
-$(document).on(
-    'mousedown',
-    '.object>.key, .array>.key',
-    function(e) {
-        var target = $(e.target);
-        target.parent().toggleClass('collapsed');
-    }
-);
+// $(document).on(
+//     'mousedown',
+//     '.object>.key, .array>.key',
+//     function(e) {
+//         var target = $(e.target);
+//         target.parent().toggleClass('collapsed');
+//     }
+// );
