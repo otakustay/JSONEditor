@@ -3,6 +3,9 @@
     border: 6px solid #393;
     background-color: #393;
     color: #fff;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 .popup-content {
     overflow: hidden;
@@ -46,6 +49,7 @@
     z-index: 10;
     -webkit-user-select: none;
     -moz-user-select: none;
+    user-select: none;
 
     display: -webkit-box;
     display: -moz-box;

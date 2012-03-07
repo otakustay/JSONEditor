@@ -5,6 +5,9 @@
     top: 0;
     min-width: 100%;
     min-height: 100%;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 .property {
     overflow: hidden;
