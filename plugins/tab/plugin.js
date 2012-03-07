@@ -24,11 +24,10 @@
 
         for (var i = 0; i < sheet.cssRules.length; i++) {
             var rule = sheet.cssRules[i];
-            if (rule.selectorText === '.array-content, .object-content') {
-                result.push({ rule: rule, extra: 2 }); // tab的宽外加key的前缀
-            }
-            if (rule.selectorText === '.value.object > .object-content' || rule.selectorText === '.object.value > .object-content') {
-                result.push({ rule: rule, extra: 0 }); // 没有key
+            if (rule.selectorText === '.array-content, .object-content' ||
+                rule.selectorText === '.value.object > .object-content' ||
+                rule.selectorText === '.object.value > .object-content') {
+                result.push(rule); // tab的宽外加key的前缀
             }
         }
         return result;
@@ -38,8 +37,8 @@
         tabWidth = Math.max(width, minTabWidth);
 
         for (var i = 0; i < rules.length; i++) {
-            var item = rules[i];
-            item.rule.style.paddingLeft = (glyphWidth * (tabWidth + item.extra)) + 'px';
+            var rule = rules[i];
+            rule.style.paddingLeft = (glyphWidth * (tabWidth)) + 'px';
         }
     }
 
