@@ -33,7 +33,7 @@
                 key: key,
                 value: value
             };
-            dispatchVisualizingEvent(e);
+            visualizer.dispatchVisualizingEvent(e);
         }
 
         container.appendChild(wrapper);
@@ -88,7 +88,7 @@
                             key: i,
                             value: item
                         };
-                        dispatchVisualizingEvent(e);
+                        visualizer.dispatchVisualizingEvent(e);
                     }
 
                     content.appendChild(wrapper);
@@ -149,40 +149,20 @@
     // Visualize事件
     var events = {};
     function addVisualizingEventListener(type, targetPropertyType, handle) {
-        var pool = this.events;
+        var pool = this.events || events;
         if (!handle) {
             handle = targetPropertyType;
             targetPropertyType = undefined;
         }
 
-        var handlers = events[type] || (events[type] = []);
+        var handlers = pool[type] || (pool[type] = []);
         handlers.push({ targetPropertyType: targetPropertyType, handle: handle });
     }
     window.addVisualizingEventListener = addVisualizingEventListener;
 
-    function dispatchVisualizingEvent(e) {
-        function processEventHandlers(handlers) {
-            if (!handlers) {
-                return;
-            }
-            for (var i = 0; i < handlers.length; i++) {
-                var handler = handlers[i];
-                if (!handler.targetPropertyType || e.propertyType.indexOf(handler.targetPropertyType) >= 0) {
-                    handler.handle.call(e.target, e);
-                }
-            }
-        }
-
-        // 私有事件
-        if (this.events && this.events !== window.events) {
-            processEventHandlers(this.events[e.type]);
-        }
-        // 全局事件
-        processEventHandlers(events[e.type]);
-    }
-
     function Visualizer(dispatchEvent) {
         this.dispatchEvent = dispatchEvent || false;
+        Object.defineProperty(this, 'events', { value: {} });
     }
 
     Visualizer.prototype.visualizeTo = function(o, element) {
@@ -197,7 +177,26 @@
 
     Visualizer.prototype.addVisualizingEventListener = addVisualizingEventListener;
 
-    Visualizer.prototype.dispatchVisualizingEvent = dispatchVisualizingEvent;
+    Visualizer.prototype.dispatchVisualizingEvent = function(e) {
+        function processEventHandlers(handlers) {
+            if (!handlers) {
+                return;
+            }
+            for (var i = 0; i < handlers.length; i++) {
+                var handler = handlers[i];
+                if (!handler.targetPropertyType || e.propertyType.indexOf(handler.targetPropertyType) >= 0) {
+                    handler.handle.call(e.target, e);
+                }
+            }
+        }
+
+        // 私有事件
+        if (this.events && this.events !== events) {
+            processEventHandlers(this.events[e.type]);
+        }
+        // 全局事件
+        processEventHandlers(events[e.type]);
+    };
 
     window.Visualizer = Visualizer;
 
