@@ -161,7 +161,7 @@
                 // 前次移动鼠标偏差还在可允许范围内，计算鼠标偏差来确定是否开始
                 else {
                     var startEvent = createEvent('start', e, validTarget, originX, originY, agent, accessor);
-                    if (startEvent.offsetX <= tolerance && startEvent.offsetY <= tolerance) {
+                    if (Math.abs(startEvent.offsetX) <= tolerance && Math.abs(startEvent.offsetY) <= tolerance) {
                         return;
                     }
 
