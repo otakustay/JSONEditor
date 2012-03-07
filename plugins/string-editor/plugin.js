@@ -47,6 +47,8 @@
     };
     // 鼠标滑动方向和元素索引的映射关系
     var directionMapping = [1, 2, 5, 8, 7, 6, 3, 0];
+    // 鼠标偏移幅度小于该数值则不选中任何内容
+    var tolerance = 20;
 
     function createEditor(e) {
         var dom = $(e.popup.dom);
@@ -69,10 +71,16 @@
     }
 
     function markTransformer(e) {
+
         var popup = requestAttachedPopupFor(e.target);
         if (popup) {
+            // 小范围内移动视为不选择任何转换功能
+            if (Math.abs(e.offsetX) <= tolerance && Math.abs(e.offsetY) <= tolerance) {
+                $(popup.dom.firstElementChild).children().removeClass('active');
+                return;
+            }
+
             // direction是从1开始的
-            console.log(e.direction);
             var index = directionMapping[e.direction - 1];
             var transformer = popup.dom.firstElementChild.children[index];
             transformer.classList.add('active');
