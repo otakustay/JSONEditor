@@ -153,11 +153,12 @@
             dom: dom,
             key: {
                 get: function() { return key; },
-                set: function(value) {
-                    context[value] = context[key];
+                set: function(newKey) {
+                    context[newKey] = context[key];
                     delete context[key];
-                    key = value;
-                    update();
+                    key = newKey;
+                    var keyElement = dom.querySelector('.key');
+                    $(keyElement).empty().text(newKey);
                 }
             },
             value: {
