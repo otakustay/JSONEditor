@@ -153,6 +153,7 @@
              */
             addBehavior: function(behavior) {
                 behaviors.push(behavior);
+                behavior.attach(this);
             },
 
             /**
@@ -188,6 +189,7 @@
                         }
                     }
 
+                    e.agent = this;
                     handler.call(this, e);
                 }
 
