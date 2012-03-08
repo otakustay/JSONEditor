@@ -100,7 +100,7 @@
                 if (transformer) {
                     transformer.classList.add('active');
                     var transformType = transformer.getAttribute('data-method');
-                    accessor.value = methods[transformType](accessor.value);
+                    accessor.value = methods[transformType](originalValue);
                 }
                 // 移到中间是e.direction为0，不高亮任何
                 else {
@@ -116,7 +116,7 @@
                 var transformer = popup.dom.firstElementChild.querySelector('.active');
                 if (transformer) {
                     var transformType = transformer.getAttribute('data-method');
-                    accessor.value = methods[transformType](accessor.value);
+                    accessor.value = methods[transformType](originalValue);
                     transformer.classList.remove('active');
                 }
                 else {
