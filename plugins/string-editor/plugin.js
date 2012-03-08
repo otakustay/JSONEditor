@@ -70,35 +70,52 @@
         );
     }
 
-    function markTransformer(e) {
+    function startSlide(e) {
+        var originalValue = e.accessor.value;
 
-        var popup = requestAttachedPopupFor(e.target);
-        if (popup) {
-            // 小范围内移动视为不选择任何转换功能
-            if (Math.abs(e.offsetX) <= tolerance && Math.abs(e.offsetY) <= tolerance) {
-                $(popup.dom.firstElementChild).children().removeClass('active');
-                return;
-            }
+        function markTransformer(e) {
+            var popup = requestAttachedPopupFor(e.target);
+            var accessor = e.accessor;
+            if (popup) {
+                // 小范围内移动视为不选择任何转换功能
+                if (Math.abs(e.offsetX) <= tolerance && Math.abs(e.offsetY) <= tolerance) {
+                    $(popup.dom.firstElementChild).children().removeClass('active');
+                    accessor.value = originalValue;
+                    return;
+                }
 
-            // direction是从1开始的
-            var index = directionMapping[e.direction - 1];
-            var transformer = popup.dom.firstElementChild.children[index];
-            transformer.classList.add('active');
-            $(transformer).siblings().removeClass('active');
-        }
-    }
+                // direction是从1开始的
+                var index = directionMapping[e.direction - 1];
+                var transformer = popup.dom.firstElementChild.children[index];
+                transformer.classList.add('active');
+                $(transformer).siblings().removeClass('active');
 
-    function applyTransformer(e) {
-        var popup = requestAttachedPopupFor(e.target);
-        if (popup) {
-            var transformer = popup.dom.firstElementChild.querySelector('.active');
-            if (transformer) {
                 var transformType = transformer.getAttribute('data-method');
-                var accessor = e.accessor;
                 accessor.value = methods[transformType](accessor.value);
-                transformer.classList.remove('active');
             }
         }
+
+        function applyTransformer(e) {
+            var popup = requestAttachedPopupFor(e.target);
+            var accessor = e.accessor;
+            if (popup) {
+                var transformer = popup.dom.firstElementChild.querySelector('.active');
+                if (transformer) {
+                    var transformType = transformer.getAttribute('data-method');
+                    accessor.value = methods[transformType](accessor.value);
+                    transformer.classList.remove('active');
+                }
+                else {
+                    accessor.value = originalValue;
+                }
+            }
+
+            this.off('directionchange');
+            this.off('end');
+        }
+
+        this.on('directionchange', markTransformer);
+        this.on('end', applyTransformer);
     }
 
     var agent = getAgentFor('value').ofType('string');
@@ -106,7 +123,6 @@
     popup.on('fill', createEditor);
     agent.addBehavior(popup);
     var slide = behavior.slide(8, -Math.PI / 8); // 分8块，向逆时针偏移22.5度为起始点
-    slide.on('directionchange', markTransformer);
-    slide.on('end', applyTransformer)
+    slide.on('start', startSlide);
     agent.addBehavior(slide);
 }());
