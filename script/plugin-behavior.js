@@ -107,8 +107,8 @@
         directionStartAngle = directionStartAngle || 0;
 
         function createEvent(type, domEvent, validTarget, originX, originY, agent, accessor) {
-            var currentX = domEvent.clientX;
-            var currentY = domEvent.clientY;
+            var currentX = domEvent.pageX;
+            var currentY = domEvent.pageY;
             var offsetX = currentX - originX;
             var offsetY = currentY - originY;
             var angle = computeAngle(offsetX, -offsetY);
@@ -138,8 +138,8 @@
         function startSlide(e) {
             var slider = this;
             var validTarget = e.target;
-            var originX = e.clientX;
-            var originY = e.clientY;
+            var originX = e.pageX;
+            var originY = e.pageY;
             var previousDirection = -1;
             var agent = e.agent;
             var accessor = e.accessor;
@@ -148,11 +148,12 @@
             function move(e) {
                 // 已经开始了滑动行为，触发move和directionchange事件
                 if (started) {
-                    var moveEvent = createEvent('move', e, validTarget, originX, originY);
+                    var moveEvent = createEvent('move', e, validTarget, originX, originY, agent, accessor);
                     slider.trigger(moveEvent);
 
                     // TODO: 追查为何direction会是负数
                     if (moveEvent.direction > 0 && moveEvent.direction !== previousDirection) {
+                        console.log('change');
                         previousDirection = moveEvent.direction;
                         var directionChangeEvent = createEvent('directionchange', e, validTarget, originX, originY, agent, accessor);
                         slider.trigger(directionChangeEvent);
@@ -165,6 +166,7 @@
                         return;
                     }
 
+                    console.log('start');
                     slider.trigger(startEvent);
 
                     // 放弃本次滑动行为
