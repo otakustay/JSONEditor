@@ -19,7 +19,7 @@ var editingObject = {
     var types = {};
     (function() {
         function simple(value, container) {
-            var span = createElement('span', '', value + '')
+            var span = createElement('span', 'value-place', value + '')
             container.appendChild(span);
         };
 
@@ -30,7 +30,7 @@ var editingObject = {
                 name: type,
                 render: simple,
                 update: function(value, valueElement) {
-                    var span = valueElement.firstElementChild;
+                    var span = valueElement.querySelector('.value-place');
                     $(span).empty().text(value);
                 },
                 extensions: []
@@ -42,7 +42,7 @@ var editingObject = {
                 simple('"' + value + '"', container);
             },
             update: function(value, valueElement) {
-                var span = valueElement.firstElementChild;
+                    var span = valueElement.querySelector('.value-place');
                 $(span).empty().text('"' + value + '"');
             },
             extensions: []
@@ -210,11 +210,14 @@ var editingObject = {
 
 
         if (newType === oldType) {
+            // TODO: 处理数组
             if (oldProperty.key !== newProperty.key) {
                 var keyElement = propertyElement.querySelector('.key');
                 keyElement.appendChild(document.createTextNode(newProperty.key));
             }
-            var valueElement = propertyElement.querySelector('.value');
+            // 数组项的话本身是value
+            var valueElement = propertyElement.classList.contains('value') ? 
+                propertyElement : propertyElement.querySelector('.value');
             newType.update(newProperty.value, valueElement, this);
         }
         else {

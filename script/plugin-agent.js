@@ -140,14 +140,6 @@
         var key = getPropertyName(dom); // 键名
         var context = access(editingObject.modified, path.slice(0, -1)); // 该属性所在的对象
 
-        function update(typeChanged) {
-            var valueElement = dom.querySelector('.value');
-            var value = context[key];
-            var type = getTypeConfig(value);
-            var visualizer = new Visualizer(true);
-            type.render(value, valueElement, visualizer);
-        }
-
         return $.spawn({
             path: path,
             dom: dom,
