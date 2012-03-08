@@ -13,7 +13,7 @@
         dom.find('.' + accessor.value).addClass('current');
 
         // 选择true/false值
-        dom.firstElementChild.on(
+        dom.children(':first').on(
             'click',
             '.true, .false',
             function(e) {
