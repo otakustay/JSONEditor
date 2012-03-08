@@ -1,6 +1,6 @@
-.toolbar>.tab-collapse {
+.toolbar-item.tab-collapse {
     background-image: url(collapse.png);
 }
-.toolbar>.tab-expand {
+.toolbar-item.tab-expand {
     background-image: url(expand.png);
 }
