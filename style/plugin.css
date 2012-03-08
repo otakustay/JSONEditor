@@ -64,9 +64,9 @@
     -webkit-transition: opacity .2s linear;
 }
 .toolbar.active {
-    height: 56px;
+    height: 70px;
     opacity: 1;
-    background: #1ba1e2;
+    background: rgba(0, 0, 0, .6);
 }
 .toolbar>.toolbar-item {
     display: block;
@@ -74,7 +74,7 @@
     width: 62px;
     border: 4px solid #fff;
     margin: 0 4px;
-    background: #fff none no-repeat 0 0;
+    background: transparent none no-repeat 0 0;
     text-indent: -500em;
 }
 
