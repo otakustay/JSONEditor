@@ -54,7 +54,8 @@
             var left = offset.left + (targetWidth / 2) - (popupWidth / 2);
             var top = offset.top - popupHeight;
 
-            if (top < scrollTop + dockPadding) { // 3
+            // TODO: 信息栏高度动态获取
+            if (top < scrollTop + dockPadding + 26 /* 信息栏的高度 */) { // 3
                 top = offset.top + targetHeight + anchorHeight;
                 element.addClass('popup-below');
             }
