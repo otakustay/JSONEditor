@@ -83,6 +83,7 @@
      * 鼠标滑动过程中，界面上的字符串会暂时变成应用了变换后的值，如果取消变换，变回原值。
      */
     function startSlide(e) {
+        // 保存初始值，以便不选择任何转换的时候恢复原值
         var originalValue = e.accessor.value;
         var previousDirection = -1;
 
@@ -130,9 +131,13 @@
     }
 
     var agent = getAgentFor('value').ofType('string');
+
+    // 鼠标按下时显示Popup，用createEditor创建面板
     var popup = behavior.popup();
     popup.on('fill', createEditor);
     agent.addBehavior(popup);
+
+    // 鼠标按下交滑动时触发一系列事件，通过方向来判断使用的字符串变换
     var slide = behavior.slide(8, -Math.PI / 8, 20); // 分8块，向逆时针偏移22.5度为起始点，移动偏移20以内不算
     slide.on('start', startSlide);
     agent.addBehavior(slide);
