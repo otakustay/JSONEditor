@@ -72,6 +72,7 @@
 
     function startSlide(e) {
         var originalValue = e.accessor.value;
+        var previousDirection = -1;
 
         function markTransformer(e) {
             var popup = requestAttachedPopupFor(e.target);
@@ -79,19 +80,24 @@
             if (popup) {
                 // 小范围内移动视为不选择任何转换功能
                 if (Math.abs(e.offsetX) <= tolerance && Math.abs(e.offsetY) <= tolerance) {
+                    previousDirection = -1;
                     $(popup.dom.firstElementChild).children().removeClass('active');
                     accessor.value = originalValue;
                     return;
                 }
 
-                // direction是从1开始的
-                var index = directionMapping[e.direction - 1];
-                var transformer = popup.dom.firstElementChild.children[index];
-                transformer.classList.add('active');
-                $(transformer).siblings().removeClass('active');
+                // 仅当方向变化时修改高亮，以减少DOM操作
+                if (e.direction > 0 && e.direction != previousDirection) {
+                    previousDirection = e.direction;
+                    // direction是从1开始的
+                    var index = directionMapping[e.direction - 1];
+                    var transformer = popup.dom.firstElementChild.children[index];
+                    transformer.classList.add('active');
+                    $(transformer).siblings().removeClass('active');
 
-                var transformType = transformer.getAttribute('data-method');
-                accessor.value = methods[transformType](accessor.value);
+                    var transformType = transformer.getAttribute('data-method');
+                    accessor.value = methods[transformType](accessor.value);
+                }
             }
         }
 
@@ -110,11 +116,11 @@
                 }
             }
 
-            this.off('directionchange');
+            this.off('move');
             this.off('end');
         }
 
-        this.on('directionchange', markTransformer);
+        this.on('move', markTransformer);
         this.on('end', applyTransformer);
     }
 
