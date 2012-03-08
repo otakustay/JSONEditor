@@ -130,7 +130,7 @@
             };
             if (directionCount > 0) {
                 if (Math.abs(offsetX) <= directionTolerance && Math.abs(offsetY) <= directionTolerance) {
-                    e.direction = -1;
+                    e.direction = 0;
                 }
                 else {
                     var perDirectionAngle = Math.PI * 2 / directionCount;
@@ -158,7 +158,7 @@
                     slider.trigger(moveEvent);
 
                     // TODO: 追查为何direction会是负数
-                    if (moveEvent.direction > 0 && moveEvent.direction !== previousDirection) {
+                    if (moveEvent.direction >= 0 && moveEvent.direction !== previousDirection) {
                         previousDirection = moveEvent.direction;
                         var directionChangeEvent = createEvent('directionchange', e, validTarget, originX, originY, agent, accessor);
                         slider.trigger(directionChangeEvent);
