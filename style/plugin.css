@@ -43,14 +43,29 @@
     position: fixed;
     top: 0;
     width: 100%;
-    opacity: 0;
     padding: 4px;
-    height: 12px;
+    box-sizing: border-box;
     z-index: 10;
+    background-color: rgba(0, 0, 0, 1);
+}
+.toolbar.active {
+    height: 70px;
+    opacity: 1;
+}
+.info-bar {
+    height: 26px;
+    line-height: 26px;
+    color: #fff;
+}
+.menu-bar {
+    /* 不能选择 */
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
-
+    /* 默认隐藏 */
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
     display: -webkit-box;
     display: -moz-box;
     display: box;
@@ -60,15 +75,8 @@
     -webkit-box-flex: 200;
     -moz-box-flex: 200;
     box-flex: 200;
-
-    -webkit-transition: opacity .2s linear;
 }
-.toolbar.active {
-    height: 70px;
-    opacity: 1;
-    background: rgba(0, 0, 0, .6);
-}
-.toolbar>.toolbar-item {
+.menu-bar>.toolbar-item {
     display: block;
     height: 62px;
     width: 62px;
@@ -76,6 +84,18 @@
     margin: 0 4px;
     background: transparent none no-repeat 0 0;
     text-indent: -500em;
+}
+/* 鼠标移上时切换 */
+.toolbar:hover>.info-bar {
+    display: none;
+}
+.toolbar:hover>.menu-bar {
+    -webkit-transition: opacity .2s linear;
+    height: auto;
+    opacity: 1;
+}
+.info-version {
+    float: right;
 }
 
 .modal {

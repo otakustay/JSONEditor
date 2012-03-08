@@ -281,7 +281,7 @@ var editingObject = {
         var visualizer = new Visualizer(true);
         visualizer.visualizeTo(o);
         $('#page').hide();
-        $('#root').show();
+        $('#visual').show();
 
         if (addHistoryEntry) {
             history.replaceState(text, 'JSON Visualizer', 'home');

@@ -1,19 +1,14 @@
 (function() {
     // TODO: 美化Toolbar
-    var bar = $('<div class="toolbar"></div>').prependTo('body');
+    var toolbarTemplate = 
+        '<div class="toolbar">' + 
+            '<div class="info-bar"><span class="info-version">JSON Editor v0.8</div>' + 
+            '<div class="menu-bar"></div>' +
+        '</div>'
+    var bar = $(toolbarTemplate).prependTo('#visual');
+    var infoBar = bar.children('.info-bar');
+    var menuBar = bar.children('.menu-bar');
     var itemTemplate = '<div class="toolbar-item {name}">{text}</div>';
-
-    // TODO: mouseenter的情况下后退至input怎么处理？增加visualModeChanged事件？
-    bar.hover(
-        function() {
-            if (isInVisualMode()) {
-                bar.addClass('active');
-            }
-        },
-        function() {
-            bar.removeClass('active');
-        }
-    );
 
     /**
      * 向Toolbar中添加一项。
@@ -25,7 +20,7 @@
      */
     window.addToolbarItem = function(options) {
         var html = $.formatTempalte(itemTemplate, options);
-        var item = $(html).appendTo(bar);
+        var item = $(html).appendTo(menuBar);
         if (options.click) {
             item.on('click', options.click);
         }

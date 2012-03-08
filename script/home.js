@@ -25,7 +25,7 @@ $(window).on(
             history.replaceState(text, 'JSON Visualizer', 'home');
             $('#json').val(text);
             $('#page').show();
-            $('#root').hide();
+            $('#visual').hide();
         }
     }
 );
