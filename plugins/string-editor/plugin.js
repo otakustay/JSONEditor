@@ -93,16 +93,18 @@
             if (popup) {
                 var container = popup.dom.firstElementChild;
                 $(container).children().removeClass('active');
-                // 移到中间是e.direction为-1，不高亮任何
-                if (e.direction > 0) {
-                    previousDirection = e.direction;
-                    // direction是从1开始的
-                    var index = directionMapping[e.direction - 1];
-                    var transformer = container.children[index];
-                    transformer.classList.add('active');
 
+                // direction是从1开始的
+                var index = directionMapping[e.direction - 1];
+                var transformer = container.children[index];
+                if (transformer) {
+                    transformer.classList.add('active');
                     var transformType = transformer.getAttribute('data-method');
                     accessor.value = methods[transformType](accessor.value);
+                }
+                // 移到中间是e.direction为0，不高亮任何
+                else {
+                    accessor.value = originalValue;
                 }
             }
         }
