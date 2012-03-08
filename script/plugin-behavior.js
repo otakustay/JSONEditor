@@ -102,9 +102,10 @@
         }
     }
 
-    behavior.slide = function(directionCount, directionStartAngle) {
+    behavior.slide = function(directionCount, directionStartAngle, directionTolerance) {
         directionCount = directionCount || 0;
         directionStartAngle = directionStartAngle || 0;
+        directionTolerance = directionTolerance || 0;
 
         function createEvent(type, domEvent, validTarget, originX, originY, agent, accessor) {
             var currentX = domEvent.pageX;
@@ -128,8 +129,13 @@
                 accessor: accessor
             };
             if (directionCount > 0) {
-                var perDirectionAngle = Math.PI * 2 / directionCount;
-                e.direction = Math.ceil((angle - directionStartAngle) / perDirectionAngle) % (directionCount + 1);
+                if (Math.abs(offsetX) <= directionTolerance && Math.abs(offsetY) <= directionTolerance) {
+                    e.direction = -1;
+                }
+                else {
+                    var perDirectionAngle = Math.PI * 2 / directionCount;
+                    e.direction = Math.ceil((angle - directionStartAngle) / perDirectionAngle) % (directionCount + 1);
+                }
             }
 
             return e;
@@ -153,7 +159,6 @@
 
                     // TODO: 追查为何direction会是负数
                     if (moveEvent.direction > 0 && moveEvent.direction !== previousDirection) {
-                        console.log('change');
                         previousDirection = moveEvent.direction;
                         var directionChangeEvent = createEvent('directionchange', e, validTarget, originX, originY, agent, accessor);
                         slider.trigger(directionChangeEvent);
@@ -166,7 +171,6 @@
                         return;
                     }
 
-                    console.log('start');
                     slider.trigger(startEvent);
 
                     // 放弃本次滑动行为

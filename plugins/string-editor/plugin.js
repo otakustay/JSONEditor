@@ -50,6 +50,11 @@
     // 鼠标偏移幅度小于该数值则不选中任何内容
     var tolerance = 20;
 
+    /*
+     * 在鼠标按下时创建编辑面板。
+     * String-Editor编辑面板是个9宫格，周边8个格子分别表示8种字符串变换。
+     * 单击对应的变换后，字符串值会发生变化
+     */
     function createEditor(e) {
         var dom = $(e.popup.dom);
         var target = e.domEvent.target;
@@ -70,6 +75,13 @@
         );
     }
 
+    /*
+     * 滚动鼠标滑动。
+     * 当鼠标滑动时，将运动分为8个方向，对应8个字符串变换。
+     * 鼠标往特定方向滑动时，对应的变换高亮，此时放开鼠标则应用该变换。
+     * 移动到鼠标开始运动的位置附近时，表示不采取任何变换。
+     * 鼠标滑动过程中，界面上的字符串会暂时变成应用了变换后的值，如果取消变换，变回原值。
+     */
     function startSlide(e) {
         var originalValue = e.accessor.value;
         var previousDirection = -1;
@@ -78,22 +90,15 @@
             var popup = requestAttachedPopupFor(e.target);
             var accessor = e.accessor;
             if (popup) {
-                // 小范围内移动视为不选择任何转换功能
-                if (Math.abs(e.offsetX) <= tolerance && Math.abs(e.offsetY) <= tolerance) {
-                    previousDirection = -1;
-                    $(popup.dom.firstElementChild).children().removeClass('active');
-                    accessor.value = originalValue;
-                    return;
-                }
-
-                // 仅当方向变化时修改高亮，以减少DOM操作
-                if (e.direction > 0 && e.direction != previousDirection) {
+                var container = popup.dom.firstElementChild;
+                $(container).children().removeClass('active');
+                // 移到中间是e.direction为-1，不高亮任何
+                if (e.direction > 0) {
                     previousDirection = e.direction;
                     // direction是从1开始的
                     var index = directionMapping[e.direction - 1];
-                    var transformer = popup.dom.firstElementChild.children[index];
+                    var transformer = container.children[index];
                     transformer.classList.add('active');
-                    $(transformer).siblings().removeClass('active');
 
                     var transformType = transformer.getAttribute('data-method');
                     accessor.value = methods[transformType](accessor.value);
@@ -116,11 +121,11 @@
                 }
             }
 
-            this.off('move');
+            this.off('directionchange');
             this.off('end');
         }
 
-        this.on('move', markTransformer);
+        this.on('directionchange', markTransformer);
         this.on('end', applyTransformer);
     }
 
@@ -128,7 +133,7 @@
     var popup = behavior.popup();
     popup.on('fill', createEditor);
     agent.addBehavior(popup);
-    var slide = behavior.slide(8, -Math.PI / 8); // 分8块，向逆时针偏移22.5度为起始点
+    var slide = behavior.slide(8, -Math.PI / 8, 20); // 分8块，向逆时针偏移22.5度为起始点，移动偏移20以内不算
     slide.on('start', startSlide);
     agent.addBehavior(slide);
 }());
