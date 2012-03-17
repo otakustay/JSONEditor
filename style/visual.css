@@ -26,23 +26,19 @@
 .array-content, .object-content {
     padding-left: 4ex;
 }
-.value.object>.object-content {
-    padding-left: 3ex;
-}
-/* 键值对时的]和}缩进，但在数组内容中不能缩进，所以加.proeprty>.value>前缀 */
-.property>.value>.array-end, .property>.value>.object-end {
-    padding-left: 2ex;
+/* 隐藏数组的键 */
+.array-content>.property>.key {
+    display: none;
 }
 
 /* 不同类型的配置 */
-.type-string>.value>span, .value.type-string>span {
+.type-string>.value>span {
     color: green;
     white-space: pre;
 }
-.type-null>.value>span, .value.type-null>span, 
-.type-undefined>.value>span, .value.type-undefined>span {
+.type-null>.value>span, .type-undefined>.value>span {
     color: gray;
 }
-.boolean>.value>span, .value.type-boolean>span {
+.boolean>.value>span {
     color: blue;
 }
