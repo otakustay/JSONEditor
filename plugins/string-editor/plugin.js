@@ -85,7 +85,6 @@
     function startSlide(e) {
         // 保存初始值，以便不选择任何转换的时候恢复原值
         var originalValue = e.accessor.value;
-        var previousDirection = -1;
 
         function markTransformer(e) {
             var popup = requestAttachedPopupFor(e.target);
