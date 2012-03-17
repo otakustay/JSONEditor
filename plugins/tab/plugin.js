@@ -1,5 +1,5 @@
 (function() {
-    var tabWidth = 4;
+    var tabWidth = +localStorage.getItem('tabWidth') || 4;
     var minTabWidth = 2;
     var tabStep = 2;
 
@@ -38,6 +38,8 @@
             var rule = rules[i];
             rule.style.paddingLeft = (glyphWidth * (tabWidth)) + 'px';
         }
+
+        localStorage.setItem('tabWidth', tabWidth);
     }
 
     function expandTabWidth() {
