@@ -24,10 +24,8 @@
 
         for (var i = 0; i < sheet.cssRules.length; i++) {
             var rule = sheet.cssRules[i];
-            if (rule.selectorText === '.array-content, .object-content' ||
-                rule.selectorText === '.value.object > .object-content' ||
-                rule.selectorText === '.object.value > .object-content') {
-                result.push(rule); // tab的宽外加key的前缀
+            if (rule.selectorText === '.array-content, .object-content') {
+                result.push(rule);
             }
         }
         return result;
