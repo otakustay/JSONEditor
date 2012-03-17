@@ -45,9 +45,6 @@
 .theme-preview .array-content, .theme-preview .object-content {
     padding-left: 2ex !important;
 }
-.theme-preview .value.object>.object-content {
-    padding-left: 2ex !important;
-}
 .theme-preview .property>.value>.array-end, .theme-preview .property>.value>.object-end {
     padding-left: 0 !important;
 }
