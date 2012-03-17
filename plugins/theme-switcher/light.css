@@ -9,22 +9,22 @@
     color: #000;
 }
 /* string */
-.visual-root[data-theme="light"] .type-string>.value>span, .visual-root[data-theme="light"] .value.type-string>span {
+.visual-root[data-theme="light"] .type-string>.value>span {
     color: #036a68;
 }
 /* number */
-.visual-root[data-theme="light"] .type-number>.value>span, .visual-root[data-theme="light"] .value.type-number>span {
+.visual-root[data-theme="light"] .type-number>.value>span {
     color: #0000cd;
 }
 /* boolean */
-.visual-root[data-theme="light"] .type-boolean>.value>span, .visual-root[data-theme="light"] .value.type-boolean>span {
+.visual-root[data-theme="light"] .type-boolean>.value>span {
     color: #687687;
 }
 /* null */
-.visual-root[data-theme="light"] .type-null>.value>span, .visual-root[data-theme="light"] .value.type-null>span {
+.visual-root[data-theme="light"] .type-null>.value>span {
     color: #7f7fab;
 }
 /* undefined */
-.visual-root[data-theme="light"] .type-undefined>.value>span, .visual-root[data-theme="light"] .value.type-undefined>span {
+.visual-root[data-theme="light"] .type-undefined>.value>span {
     color: #7f7fab;
 }

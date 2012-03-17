@@ -4,23 +4,23 @@
     color: #fff;
 }
 /* string */
-.visual-root[data-theme="default"] .type-string>.value>span, .visual-root[data-theme="default"] .value.type-string>span {
+.visual-root[data-theme="default"] .type-string>.value>span {
     color: #e6db5a;
     white-space: pre;
 }
 /* number */
-.visual-root[data-theme="default"] .type-number>.value>span, .visual-root[data-theme="default"] .value.type-number>span {
+.visual-root[data-theme="default"] .type-number>.value>span {
     color: #ae81ff;
 }
 /* boolean */
-.visual-root[data-theme="default"] .type-boolean>.value>span, .visual-root[data-theme="default"] .value.type-boolean>span {
+.visual-root[data-theme="default"] .type-boolean>.value>span {
     color: #f9264c;
 }
 /* null */
-.visual-root[data-theme="default"] .type-null>.value>span, .visual-root[data-theme="default"] .value.type-null>span {
+.visual-root[data-theme="default"] .type-null>.value>span {
     color: #66d9ef;
 }
 /* undefined */
-.visual-root[data-theme="default"] .type-undefined>.value>span, .visual-root[data-theme="default"] .value.type-undefined>span {
+.visual-root[data-theme="default"] .type-undefined>.value>span {
     color: #66d9ef;
 }

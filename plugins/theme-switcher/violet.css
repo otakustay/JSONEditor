@@ -9,22 +9,22 @@
     color: #d0d0ff;
 }
 /* string */
-.visual-root[data-theme="violet"] .type-string>.value>span, .visual-root[data-theme="violet"] .value.type-string>span {
+.visual-root[data-theme="violet"] .type-string>.value>span {
     color: #999;
 }
 /* number */
-.visual-root[data-theme="violet"] .type-number>.value>span, .visual-root[data-theme="violet"] .value.type-number>span {
+.visual-root[data-theme="violet"] .type-number>.value>span {
     color: #7090b0;
 }
 /* boolean */
-.visual-root[data-theme="violet"] .type-boolean>.value>span, .visual-root[data-theme="violet"] .value.type-boolean>span {
+.visual-root[data-theme="violet"] .type-boolean>.value>span {
     color: #9afff0;
 }
 /* null */
-.visual-root[data-theme="violet"] .type-null>.value>span, .visual-root[data-theme="violet"] .value.type-null>span {
+.visual-root[data-theme="violet"] .type-null>.value>span {
     color: #a0a0ff;
 }
 /* undefined */
-.visual-root[data-theme="violet"] .type-undefined>.value>span, .visual-root[data-theme="violet"] .value.type-undefined>span {
+.visual-root[data-theme="violet"] .type-undefined>.value>span {
     color: #a0a0ff;
 }

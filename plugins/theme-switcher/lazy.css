@@ -9,22 +9,22 @@
     color: #660;
 }
 /* string */
-.visual-root[data-theme="lazy"] .type-string>.value>span, .visual-root[data-theme="lazy"] .value.type-string>span {
+.visual-root[data-theme="lazy"] .type-string>.value>span {
     color: #419b1c;
 }
 /* number */
-.visual-root[data-theme="lazy"] .type-number>.value>span, .visual-root[data-theme="lazy"] .value.type-number>span {
+.visual-root[data-theme="lazy"] .type-number>.value>span {
     color: #3b5bb5;
 }
 /* boolean */
-.visual-root[data-theme="lazy"] .type-boolean>.value>span, .visual-root[data-theme="lazy"] .value.type-boolean>span {
+.visual-root[data-theme="lazy"] .type-boolean>.value>span {
     color: #ff7800;
 }
 /* null */
-.visual-root[data-theme="lazy"] .type-null>.value>span, .visual-root[data-theme="lazy"] .value.type-null>span {
+.visual-root[data-theme="lazy"] .type-null>.value>span {
     color: #555;
 }
 /* undefined */
-.visual-root[data-theme="lazy"] .type-undefined>.value>span, .visual-root[data-theme="lazy"] .value.type-undefined>span {
+.visual-root[data-theme="lazy"] .type-undefined>.value>span {
     color: #555;
 }
