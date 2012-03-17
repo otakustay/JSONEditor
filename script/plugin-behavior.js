@@ -56,6 +56,10 @@
 // Popup
 (function() {
     function showPopup(e) {
+        if (e.which !== 1) {
+            return;
+        }
+        
         var target = e.target;
         var popup = requestPopup();
 
