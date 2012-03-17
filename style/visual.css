@@ -1,13 +1,17 @@
 #visual {
     position: absolute;
     top: 0;
-    padding-top: 26px;
+    box-sizing: border-box;
     min-width: 100%;
     min-height: 100%;
 }
 #root {
-    padding: 8px;
+    padding: 26px 8px 8px;
     box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    min-width: 100%;
+    min-height: 100%;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
