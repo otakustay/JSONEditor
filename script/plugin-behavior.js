@@ -59,7 +59,7 @@
         if (e.which !== 1) {
             return;
         }
-        
+
         var target = e.target;
         var popup = requestPopup();
 
@@ -109,7 +109,7 @@
     behavior.slide = function(directionCount, directionStartAngle, directionTolerance) {
         directionCount = directionCount || 0;
         directionStartAngle = directionStartAngle || 0;
-        directionTolerance = directionTolerance || 0;
+        directionTolerance = typeof directionTolerance === 'undefined' ? 20 : (directionTolerance || 0);
 
         function createEvent(type, domEvent, validTarget, originX, originY, agent, accessor) {
             var currentX = domEvent.pageX;

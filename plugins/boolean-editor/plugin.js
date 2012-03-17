@@ -70,7 +70,7 @@
     popup.on('fill', createEditor);
     agent.addBehavior(popup);
 
-    var slide = behavior.slide(2, 0, 20); // 分左右2个方向
+    var slide = behavior.slide(2, 0); // 分左右2个方向
     slide.on('start', startSlide);
     agent.addBehavior(slide);
 }());

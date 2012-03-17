@@ -139,7 +139,7 @@
     agent.addBehavior(popup);
 
     // 鼠标按下交滑动时触发一系列事件，通过方向来判断使用的字符串变换
-    var slide = behavior.slide(8, -Math.PI / 8, 20); // 分8块，向逆时针偏移22.5度为起始点，移动偏移20以内不算
+    var slide = behavior.slide(8, -Math.PI / 8); // 分8块，向逆时针偏移22.5度为起始点
     slide.on('start', startSlide);
     agent.addBehavior(slide);
 }());
