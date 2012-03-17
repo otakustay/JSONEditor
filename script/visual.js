@@ -18,100 +18,73 @@ var editingObject = {
     // 不同类型键/值的渲染
     var types = {};
     (function() {
-        function simple(value, container) {
-            var span = createElement('span', 'value-place', value + '')
-            container.appendChild(span);
+        var simple = {
+            render: function(value, container) {
+                var span = createElement('span', 'value-place', value + '')
+                container.appendChild(span);
+            },
+            update: function(value, valueElement) {
+                var span = valueElement.querySelector('.value-place');
+                $(span).empty().text(value);
+            }
         };
 
-        var simpleTypes = ['null', 'undefined', 'boolean', 'number'];
-        for (var i = 0; i < simpleTypes.length; i++) {
-            var type = simpleTypes[i];
-            types[type] = {
-                name: type,
-                render: simple,
-                update: function(value, valueElement) {
-                    var span = valueElement.querySelector('.value-place');
-                    $(span).empty().text(value);
-                },
-                extensions: []
-            };
-        }
+        ['null', 'undefined', 'boolean', 'number'].forEach(
+            function(t) {
+                types[t] = $.extend(
+                    { name: t, extensions: [] }, 
+                    simple
+                );
+            }
+        );
+
         types['string'] = {
             name: 'string',
             render: function(value, container) {
-                simple('"' + value + '"', container);
+                simple.render('"' + value + '"', container);
             },
             update: function(value, valueElement) {
-                    var span = valueElement.querySelector('.value-place');
+                var span = valueElement.querySelector('.value-place');
                 $(span).empty().text('"' + value + '"');
             },
             extensions: []
         };
-        types['array'] = {
-            name: 'array',
-            render: function(array, container, visualizer) {
-                var start = createElement('span', 'array-start', '[');
-                container.appendChild(start);
 
-                var content = createElement('div', 'array-content');
-                container.appendChild(content);
-                types['array'].update(array, container, visualizer);
-
-                var end = createElement('span', 'array-end', ']');
-                container.appendChild(end);
-            },
-            update: function(array, container, visualizer) {
-                var content = container.querySelector('.array-content');
-                $(content).empty();
-
-                for (var i = 0; i < array.length; i++) {
-                    var item = array[i];
-                    var type = getTypeConfig(item);
-                    var className = 'type-' + type.name;
-                    if (type.baseType) {
-                        className += ' type-' + type.baseType;
-                    }
-                    var wrapper = createElement('div', 'value ' + className, '');
-                    type.render(item, wrapper, visualizer);
-
-                    if (visualizer.dispatchEvent) {
-                        var e = {
-                            type: 'renderproperty',
-                            target: wrapper,
-                            propertyType: type.baseType ? [type.name, type.baseType] : [type.name],
-                            key: i,
-                            value: item
-                        };
-                        visualizer.dispatchVisualizingEvent(e);
-                    }
-
-                    content.appendChild(wrapper);
-                }
-            },
-            extensions: []
+        var brackets = {
+            array: { start: '[', end: ']' },
+            object: { start: '{', end: '}' }
         };
-        types['object'] = {
-            name: 'object',
+        var complex = {
             render: function(o, container, visualizer) {
-                var start = createElement('span', 'object-start', '{');
+                var type = {}.toString.call(o).slice(8, -1).toLowerCase();
+                var start = createElement('span', type + '-start', brackets[type].start);
                 container.appendChild(start);
 
-                var content = createElement('div', 'object-content', '');
+                var content = createElement('div', type + '-content', '');
                 container.appendChild(content);
-                types['object'].update(o, container, visualizer);
+                complex.update(o, container, visualizer);
 
-                var end = createElement('span', 'object-end', '}');
+                var end = createElement('span', type + '-end', brackets[type].end);
                 container.appendChild(end);
             },
             update: function(o, container, visualizer) {
-                var content = container.querySelector('.object-content');
+                var type = {}.toString.call(o).slice(8, -1).toLowerCase();
+                var content = container.querySelector('.' + type + '-content');
                 for (var key in o) {
                     var value = o[key];
                     visualizer.generatePropertySection(key, value, content, visualizer);
                 }
-            },
-            extensions: []
+            }
         };
+
+        ['array', 'object'].forEach(
+            function(t) {
+                types[t] = $.extend(
+                    { name: t, extensions: [] }, 
+                    complex
+                );
+            }
+        );
     }());
 
     function getTypeConfig(o) {
@@ -180,7 +153,7 @@ var editingObject = {
 
         this.fillPropertyElement(key, value, wrapper);
 
-        container.insertBefore(wrapper);
+        container.appendChild(wrapper);
     };
 
     Visualizer.prototype.fillPropertyElement = function(key, value, propertyElement) {
