@@ -41,6 +41,7 @@
                 return element.textContent.trim();
             }
         }
+        return null;
     }
 
     function getPropertyTypes(propertyElement) {
@@ -52,7 +53,7 @@
         );
 
         // TODO: 稳定后移除
-        if (!matchedTypes.length) {
+        if (!types.length) {
             throw new Error('Type Extract Error');
         }
 
@@ -108,15 +109,11 @@
                     context[key] = newValue;
 
                     var visualizer = new Visualizer(true);
-                    visualizer.updateProperty(
-                        { key: key, value: oldValue },
-                        { key: key, value: newValue },
-                        dom
-                    );
+                    visualizer.updateProperty({ key: key, value: oldValue }, { key: key, value: newValue }, dom);
                 }
             }
         });
-    }
+    };
 
     /**
      * 获取一个特定类型区块的代理。
