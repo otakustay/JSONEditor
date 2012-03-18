@@ -56,6 +56,7 @@
     height: 26px;
     line-height: 26px;
     color: #fff;
+    overflow: hidden;
 }
 .menu-bar {
     /* 不能选择 */
@@ -94,8 +95,14 @@
     height: auto;
     opacity: 1;
 }
+.info-section {
+    float: left;
+}
 .info-version {
     float: right;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 6px;
 }
 
 .modal {
