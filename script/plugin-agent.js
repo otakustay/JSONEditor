@@ -122,7 +122,7 @@
      * 获取一个特定类型区块的代理。
      * 代理作为插件的基础对象，提供了对整个JSONEditor特地部分的操作能力。
      *
-     * @param {string} [targetSection=*] 代理需要处理的区块类型，可取值key、value、property或*，分别表示代理键、值、属性（除去键和值对应元素以外）和所有区块，默认为*
+     * @param {string} [targetSection=*] 代理需要处理的区块类型，可取值key、value或*，分别表示代理键、值和所有区块，默认为*
      * @return {object} 一个代理对象
      */
     window.getAgentFor = function(targetSection) {
