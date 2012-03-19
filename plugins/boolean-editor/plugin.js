@@ -1,8 +1,8 @@
 (function() {
-    var editorTemplate = 
-        '<div class="boolean-editor">' + 
-            '<span class="true">true</span>' + 
-            '<span class="false">false</span>' + 
+    var editorTemplate =
+        '<div class="boolean-editor">' +
+            '<span class="true">true</span>' +
+            '<span class="false">false</span>' +
         '</div>';
 
     function createEditor(e) {

@@ -8,11 +8,11 @@
     function render(value, container) {
         var ticks = parseInt(value.substring(6), 10);
         var date = new Date(ticks);
-        var str = date.getFullYear() + '-' + 
-            pad(date.getMonth() + 1) + '-' + 
-            pad(date.getDate()) + ' ' + 
-            pad(date.getHours()) + ':' + 
-            pad(date.getMinutes()) + ':' + 
+        var str = date.getFullYear() + '-' +
+            pad(date.getMonth() + 1) + '-' +
+            pad(date.getDate()) + ' ' +
+            pad(date.getHours()) + ':' +
+            pad(date.getMinutes()) + ':' +
             pad(date.getSeconds());
         if (date.getMilliseconds()) {
             str += '.' + date.getMilliseconds();

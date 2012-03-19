@@ -1,6 +1,6 @@
 (function() {
     function isCollapsible(types) {
-        return types.indexOf('object') >= 0 || 
+        return types.indexOf('object') >= 0 ||
             types.indexOf('array') >= 0;
     }
     addVisualizingEventListener(

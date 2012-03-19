@@ -1,11 +1,11 @@
 (function() {
-    var editorTemplate = 
-        '<ul class="string-editor">' + 
+    var editorTemplate =
+        '<ul class="string-editor">' +
             '<li data-method="upper" title="全大写">BAD APPLE</li>' +
             '<li data-method="lower" title="全小写">bad apple</li>' +
             '<li data-method="captalize" title="首字母大写">Bad Apple</li>' +
             '<li data-method="html" title="HTML编码">bad<mark>&amp;nbsp;</mark>apple</li>' +
-            '<li class="indicator">拖动鼠标或单击选择</li>' + 
+            '<li class="indicator">拖动鼠标或单击选择</li>' +
             '<li data-method="uri" title="URL编码">bad<mark>%20</mark>apple</li>' +
             '<li data-method="underscore" title="下划线分隔">bad_apple</li>' +
             '<li data-method="hyphen" title="横线分隔">bad-apple</li>' +
