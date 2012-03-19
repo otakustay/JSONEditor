@@ -23,7 +23,7 @@
         if (e.dataTransfer.files.length) {
             var file = e.dataTransfer.files[0];
             var reader = new FileReader();
-            reader.onload = function() { target.val(this.result); }
+            reader.onload = function() { target.val(this.result); };
             reader.readAsText(file);
         }
         else {
@@ -39,7 +39,7 @@
         .on('drop', readFromFile);
 
     $('#submit').on(
-        'click', 
+        'click',
         function(e) {
             e.preventDefault();
 
@@ -53,5 +53,5 @@
         function() {
             document.querySelector('#json').value = testData;
         }
-    )
+    );
 }());

@@ -71,7 +71,7 @@
                 get: function() { return !disposed; }
             },
             contentReusable: {
-                get: function() { return contentReusable; }, 
+                get: function() { return contentReusable; },
                 set: function(value) { contentReusable = value; }
             }
         });

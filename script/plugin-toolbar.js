@@ -1,10 +1,10 @@
 (function() {
     // TODO: 美化Toolbar
-    var toolbarTemplate = 
-        '<div class="toolbar">' + 
-            '<div class="info-bar"><span class="info-version">JSON Editor v0.8</div>' + 
+    var toolbarTemplate =
+        '<div class="toolbar">' +
+            '<div class="info-bar"><span class="info-version">JSON Editor v0.8</div>' +
             '<div class="menu-bar"></div>' +
-        '</div>'
+        '</div>';
     var bar = $(toolbarTemplate).prependTo('#visual');
     var infoBar = bar.children('.info-bar');
     var menuBar = bar.children('.menu-bar');

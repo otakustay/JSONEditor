@@ -20,7 +20,7 @@ var editingObject = {
     (function() {
         var simple = {
             render: function(value, container) {
-                var span = createElement('span', 'value-place', value + '')
+                var span = createElement('span', 'value-place', value + '');
                 container.appendChild(span);
             },
             update: function(value, valueElement) {
@@ -32,7 +32,7 @@ var editingObject = {
         ['null', 'undefined', 'boolean', 'number'].forEach(
             function(t) {
                 types[t] = $.extend(
-                    { name: t, extensions: [] }, 
+                    { name: t, extensions: [] },
                     simple
                 );
             }
@@ -71,8 +71,10 @@ var editingObject = {
                 var type = {}.toString.call(o).slice(8, -1).toLowerCase();
                 var content = container.querySelector('.' + type + '-content');
                 for (var key in o) {
-                    var value = o[key];
-                    visualizer.generatePropertySection(key, value, content, visualizer);
+                    if (o.hasOwnProperty(key)) {
+                        var value = o[key];
+                        visualizer.generatePropertySection(key, value, content, visualizer);
+                    }
                 }
             }
         };
@@ -80,7 +82,7 @@ var editingObject = {
         ['array', 'object'].forEach(
             function(t) {
                 types[t] = $.extend(
-                    { name: t, extensions: [] }, 
+                    { name: t, extensions: [] },
                     complex
                 );
             }
@@ -139,7 +141,9 @@ var editingObject = {
         $(element).empty();
 
         for (var key in o) {
-            this.generatePropertySection(key, o[key], element, this);
+            if (o.hasOwnProperty(key)) {
+                this.generatePropertySection(key, o[key], element, this);
+            }
         }
     };
 
@@ -189,7 +193,7 @@ var editingObject = {
                 keyElement.appendChild(document.createTextNode(newProperty.key));
             }
             // 数组项的话本身是value
-            var valueElement = propertyElement.classList.contains('value') ? 
+            var valueElement = propertyElement.classList.contains('value') ?
                 propertyElement : propertyElement.querySelector('.value');
             newType.update(newProperty.value, valueElement, this);
         }
@@ -244,8 +248,8 @@ var editingObject = {
         }
         catch (syntaxError) {
             notify(
-                'error', 
-                'JSON格式错误', 
+                'error',
+                'JSON格式错误',
                 ['输入JSON格式无法通过<code>JSON.parse</code>解析，以下为错误信息：', syntaxError.message].join('<br />')
             );
             return;

@@ -4,7 +4,7 @@ $.document = $(document);
 
 $.defineProperty = function(o, name, value) {
     // Property Descriptor
-    if (typeof value === 'object' && 
+    if (typeof value === 'object' &&
         ('value' in value || 'get' in value || 'set' in value)) {
         Object.defineProperty(o, name, value);
     }
@@ -31,4 +31,4 @@ $.formatTempalte = function(template, data) {
 
 function isInVisualMode() {
     return location.href.indexOf('/visual') >= 0;
-};
+}

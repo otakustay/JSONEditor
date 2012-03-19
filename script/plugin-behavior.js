@@ -7,14 +7,14 @@
         return $.spawn({
             name: name,
             attach: {
-                value: function(agent) {  
+                value: function(agent) {
                     if (this.agent) {
                         return;
                     }
                     Object.defineProperty(this, 'agent', { value: agent });
                     this.enable();
-                }, 
-                writable: true 
+                },
+                writable: true
             },
             enable: { value: function() {}, writable: true },
             on: function(type, handle) {
@@ -200,8 +200,8 @@
         var instance = behavior.createNew('slide');
         instance.enable = function() {
             this.agent.on('mousedown', startSlide.bind(this));
-        }
+        };
 
         return instance;
-    }
+    };
 }());
