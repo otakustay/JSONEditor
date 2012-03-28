@@ -22,10 +22,8 @@
              * 2. 如果纵向空间不够，则向上移动，最多离上边距有{padding}的距离
              * 3. 如果超出视窗，交给视窗的滚动条处理
              */
-            var pageWidth = $.window.width();
             var pageHeight = $.window.height();
             var scrollTop = $.window.scrollTop();
-            var scrollLeft = $.window.scrollLeft();
             var width = frame.width();
             var height = frame.height();
             var padding = 20;

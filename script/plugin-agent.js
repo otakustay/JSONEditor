@@ -44,22 +44,6 @@
         return null;
     }
 
-    function getPropertyTypes(propertyElement) {
-        // 从classList中提取
-        var nativeTypes = ['number', 'string', 'boolean', 'null', 'undefined'];
-        var types = [].filter.call(
-            propertyElement.classList,
-            function(t) { return t.indexOf('type-') === 0; }
-        );
-
-        // TODO: 稳定后移除
-        if (!types.length) {
-            throw new Error('Type Extract Error');
-        }
-
-        return types.map(function(t) { return t.substring(5); });
-    }
-
     function getPath(element) {
         var path = [];
         var propertyElement = getPropertyElement(element);
