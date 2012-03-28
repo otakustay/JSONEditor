@@ -6,7 +6,7 @@
     min-height: 100%;
 }
 #root {
-    padding: 26px 8px 8px;
+    padding: 32px 8px 0;
     box-sizing: border-box;
     position: absolute;
     top: 0;
