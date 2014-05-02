@@ -7,6 +7,6 @@ JSON Editor是一个可视化的JSON编辑器，其拥有以下特点：
 5. 可监听可视化展现中的事件，以添加、修改可视元素。
 6. JSON Editor默认仅具有将JSON可视化展现的效果，不带有任何编辑功能。但提供了一套完整的插件体系，可以方便、快捷地加入插件来实现各类编辑功能。
 
-可以前往以下地址进行演示：http://216.24.195.182/JSONVisualizer/home
+可以前往以下地址进行演示：http://162.243.144.232/JSONEditor/visual
 
 具体资源请[参见WIKI](https://github.com/otakustay/JSONEditor/wiki)
